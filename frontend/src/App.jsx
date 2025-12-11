@@ -1,39 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AssessmentProvider } from "./context/AssessmentContext";
 
-function App() {
-  const [count, setCount] = useState(0)
+import LandingPage from "./pages/LandingPage.jsx";
+import AgeStep from "./pages/assessment/AgeStep.jsx";
+import MenstrualStep from "./pages/assessment/MenstrualStep.jsx";
 
+/**
+ * App.jsx - full route list for assessment flow (start with step1 & step2)
+ * You'll add subsequent step components (pain, discharge, urinary, mood, lifestyle, summary)
+ * as we proceed.
+ */
+
+export default function App() {
   return (
-    <>
-      <h1 className="text-5xl font-bold text-green-600">
-  Tailwind v4 Working! 🚀
-</h1>
+    <AssessmentProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
 
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+          {/* Assessment flow */}
+          <Route path="/assessment/age" element={<AgeStep />} />
+          <Route path="/assessment/menstrual" element={<MenstrualStep />} />
+
+          {/* Placeholders for remaining steps (add real components later) */}
+          <Route path="/assessment/pain" element={<div className="p-6">Pain step (coming)</div>} />
+          <Route path="/assessment/discharge" element={<div className="p-6">Discharge step (coming)</div>} />
+          <Route path="/assessment/urinary" element={<div className="p-6">Urinary step (coming)</div>} />
+          <Route path="/assessment/mood" element={<div className="p-6">Mood step (coming)</div>} />
+          <Route path="/assessment/lifestyle" element={<div className="p-6">Lifestyle step (coming)</div>} />
+          <Route path="/assessment/summary" element={<div className="p-6">Summary step (coming)</div>} />
+        </Routes>
+      </BrowserRouter>
+    </AssessmentProvider>
+  );
 }
-
-export default App
