@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 /**
  * LandingPage.jsx
@@ -17,100 +18,74 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* -------- Header -------- */}
-      <header className="w-full bg-white/80 backdrop-blur-sm border-b border-pink-100">
-        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center gap-3 ">
-              <div className="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold shadow">
-                🌸
-              </div>
-              <div className="text-2xl font-semibold text-gray-800">Aarogya Sakhi</div>
-            </div>
-
-            {/* Nav Links */}
-            <nav className="hidden md:flex gap-8 text-gray-600">
-              <a className="hover:text-pink-600 transition" href="#">Assessment</a>
-              <a className="hover:text-pink-600 transition" href="#">Dashboard</a>
-              <a className="hover:text-pink-600 transition" href="#">Talk to Sakhi</a>
-              <a className="hover:text-pink-600 transition" href="#">Find Clinics</a>
-              <a className="hover:text-pink-600 transition" href="#">Resources</a>
-              <a className="hover:text-pink-600 transition" href="#">Community</a>
-            </nav>
-
-            {/* Language / small CTA */}
-            <div className="flex items-center gap-4">
-              <button className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-sm">
-                English <span className="ml-1 text-gray-400">▾</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+     <Navbar />
 
       {/* -------- Hero (background image) -------- */}
-      <main className="relative flex-1">
+      <main className="relative flex-1 overflow-hidden">
         {/* Background image */}
         <div
-          className="bg-cover bg-center absolute inset-0 bg-gradient-to-r from-pink-100/50 to-rose-100/50"
+          className="absolute inset-0 bg-cover  bg-no-repeat"
           style={{
             backgroundImage: `url(${BG_URL})`,
             filter: "contrast(0.96) saturate(0.9)",
+            transformOrigin: "center",
+            backgroundSize: "100%",
           }}
           aria-hidden="true"
         />
 
         {/* Soft pink overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-pink-50/70 via-pink-50/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-pink-100/80 via-pink-100/80 to-100/80" />
 
         {/* Content container */}
-        <div className="relative max-w-6xl mx-auto px-6 md:px-8 lg:px-12 pt-20 pb-24">
+        <div className="relative max-w-6xl mx-auto px-6 md:px-8 lg:px-12 pt-14 pb-16 scale-[0.9] origin-top">
+
           {/* Headline */}
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight drop-shadow-sm">
+            <h1 className="text-2xl md:text-3xl lg:text-5xl font-extrabold text-gray-900 leading-tight drop-shadow-sm ">
               Your trusted companion for <span className="text-pink-600">women&apos;s health</span>
             </h1>
 
-            <p className="mt-6 text-gray-700 text-base md:text-lg">
+            <p className="mt-7 text-gray-700 font-semibold text-md md:text-lg leading-relaxed drop-shadow-sm">
               Get personalized health assessments, find nearby clinics, and access trusted medical
               guidance — all in your preferred language.
             </p>
 
-            <div className="mt-6 flex items-center justify-center gap-3 text-gray-800">
+            <div className="mt-5 flex items-center justify-center gap-0 text-gray-800">
               <span className="text-2xl">👩🏽‍⚕️</span>
-              <div className="font-semibold">Meet your Sakhi</div>
+              <div className="font-semibold text-xl">Meet your Sakhi</div>
             </div>
           </div>
 
           {/* Sakhi Cards */}
-          <div className="mt-10">
+          <div className="mt-7">
             <div className="flex flex-wrap justify-center gap-6">
               {/* Card 1 */}
               <div className="w-52 bg-white/90 backdrop-blur-sm rounded-xl shadow p-4 text-center">
                 <div className="text-3xl">🧕</div>
                 <div className="mt-3 font-semibold text-gray-800">Priya</div>
-                <div className="mt-1 text-sm text-gray-500">Gentle and caring, speaks softly</div>
+                <div className="mt-1 text-sm text-gray-600">Gentle and caring, speaks softly</div>
               </div>
 
               {/* Card 2 */}
               <div className="w-52 bg-white/90 backdrop-blur-sm rounded-xl shadow p-4 text-center">
                 <div className="text-3xl">👩🏽‍⚕️</div>
                 <div className="mt-3 font-semibold text-gray-800">Meera</div>
-                <div className="mt-1 text-sm text-gray-500">Experienced and knowledgeable</div>
+                <div className="mt-1 text-sm text-gray-600">Experienced and knowledgeable</div>
               </div>
 
               {/* Card 3 */}
               <div className="w-52 bg-white/90 backdrop-blur-sm rounded-xl shadow p-4 text-center">
                 <div className="text-3xl">👩🏽‍🤝‍👩🏽</div>
                 <div className="mt-3 font-semibold text-gray-800">Kavya</div>
-                <div className="mt-1 text-sm text-gray-500">Friendly and encouraging</div>
+                <div className="mt-1 text-sm text-gray-600">Friendly and encouraging</div>
               </div>
 
               {/* Card 4 */}
               <div className="w-52 bg-white/90 backdrop-blur-sm rounded-xl shadow p-4 text-center">
                 <div className="text-3xl">👩🏾‍🦱</div>
                 <div className="mt-3 font-semibold text-gray-800">Asha</div>
-                <div className="mt-1 text-sm text-gray-500">Supportive and understanding</div>
+                <div className="mt-1 text-sm text-gray-600">Supportive and understanding</div>
               </div>
             </div>
           </div>
