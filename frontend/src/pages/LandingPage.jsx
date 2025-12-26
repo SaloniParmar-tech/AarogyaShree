@@ -103,9 +103,242 @@ export default function LandingPage() {
           </div>
 
           {/* bottom spacing */}
-          <div className="h-12" />
         </div>
       </main>
+      {/* -------- How can we help you -------- */}
+<section className="bg-white py-16">
+  <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12">
+    <h2 className="text-center text-2xl md:text-3xl font-semibold text-gray-800 mb-10">
+      How can we help you today?
+    </h2>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Card 1 */}
+      <div className="rounded-xl bg-pink-100/60 p-5 shadow-sm hover:shadow-md transition">
+        <div className="text-2xl mb-3">🔍</div>
+        <h3 className="font-semibold text-gray-800">Start Health Assessment</h3>
+        <p className="text-sm text-gray-600 mt-1">
+          Answer questions about your health
+        </p>
+        <button className="mt-3 text-pink-600 text-sm font-medium">
+          Get Started →
+        </button>
+      </div>
+
+      {/* Card 2 */}
+      <div className="rounded-xl bg-pink-100/60 p-5 shadow-sm hover:shadow-md transition">
+        <div className="text-2xl mb-3">📊</div>
+        <h3 className="font-semibold text-gray-800">View My Reports</h3>
+        <p className="text-sm text-gray-600 mt-1">
+          Check your previous assessments
+        </p>
+        <button className="mt-3 text-pink-600 text-sm font-medium">
+          Get Started →
+        </button>
+      </div>
+
+      {/* Card 3 */}
+      <div className="rounded-xl bg-blue-100/60 p-5 shadow-sm hover:shadow-md transition">
+        <div className="text-2xl mb-3">📍</div>
+        <h3 className="font-semibold text-gray-800">Find Nearby Clinics</h3>
+        <p className="text-sm text-gray-600 mt-1">
+          Locate health centers near you
+        </p>
+        <button className="mt-3 text-pink-600 text-sm font-medium">
+          Get Started →
+        </button>
+      </div>
+
+      {/* Card 4 */}
+      <div className="rounded-xl bg-green-100/60 p-5 shadow-sm hover:shadow-md transition">
+        <div className="text-2xl mb-3">📘</div>
+        <h3 className="font-semibold text-gray-800">Health Resources</h3>
+        <p className="text-sm text-gray-600 mt-1">
+          Learn about women’s health
+        </p>
+        <button className="mt-3 text-pink-600 text-sm font-medium">
+          Get Started →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{/* -------- Why Choose Aarogya Sakhi -------- */}
+<section className="bg-pink-50 py-20">
+  <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
+    
+    {/* Left content */}
+    <div>
+      <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">
+        Why choose Aarogya Sakhi?
+      </h2>
+
+      <ul className="space-y-6">
+  {/* Item 1 */}
+  <li className="grid grid-cols-[48px_1fr] gap-4 items-center">
+    <div className="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-xl">
+      🔒
+    </div>
+    <div>
+      <div className="font-semibold text-gray-800">
+        Complete Privacy
+      </div>
+      <div className="text-sm text-gray-600">
+        Your health information stays confidential and secure
+      </div>
+    </div>
+  </li>
+
+  {/* Item 2 */}
+  <li className="grid grid-cols-[48px_1fr] gap-4 items-center">
+    <div className="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-xl">
+      🌐
+    </div>
+    <div>
+      <div className="font-semibold text-gray-800">
+        Local Language Support
+      </div>
+      <div className="text-sm text-gray-600">
+        Available in Hindi, Marathi, Tamil, Telugu, and more
+      </div>
+    </div>
+  </li>
+
+  {/* Item 3 */}
+  <li className="grid grid-cols-[48px_1fr] gap-4 items-center">
+    <div className="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-xl">
+      🤖
+    </div>
+    <div>
+      <div className="font-semibold text-gray-800">
+        AI-Powered Insights
+      </div>
+      <div className="text-sm text-gray-600">
+        Get personalized health recommendations based on your responses
+      </div>
+    </div>
+  </li>
+
+  {/* Item 4 */}
+  <li className="grid grid-cols-[48px_1fr] gap-4 items-center">
+    <div className="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-xl">
+      📩
+    </div>
+    <div>
+      <div className="font-semibold text-gray-800">
+        SMS Reminders
+      </div>
+      <div className="text-sm text-gray-600">
+        Never miss important health checkups with gentle reminders
+      </div>
+    </div>
+  </li>
+</ul>
+
+    </div>
+
+    {/* Right image */}
+    <div className="flex justify-center">
+      <img
+        src="https://i.postimg.cc/cHbW2jBM/25e52ee0dfb14f111ffdf2d15d0518d8.jpg"
+        alt="Woman using phone"
+        className="rounded-2xl shadow-md w-90 object-cover"
+      />
+    </div>
+  </div>
+</section>
+
+
+
+{/* -------- Stats -------- */}
+<section className="bg-white py-12">
+  <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    
+    <div>
+      <div className="text-xl font-bold text-pink-600">50,000+</div>
+      <div className="text-sm text-gray-600">Women Helped</div>
+    </div>
+
+    <div>
+      <div className="text-xl font-bold text-pink-600">95%</div>
+      <div className="text-sm text-gray-600">Satisfaction Rate</div>
+    </div>
+
+    <div>
+      <div className="text-xl font-bold text-pink-600">24/7</div>
+      <div className="text-sm text-gray-600">Support Available</div>
+    </div>
+
+    <div>
+      <div className="text-xl font-bold text-pink-600">6</div>
+      <div className="text-sm text-gray-600">Languages Supported</div>
+    </div>
+
+  </div>
+</section>
+
+{/* -------- Footer -------- */}
+<footer className="bg-gray-900 border-t border-pink-100">
+  <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 py-12">
+    
+    {/* Top part */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      
+      {/* Brand */}
+      <div>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 rounded-full bg-pink-600 flex items-center justify-center text-white shadow">
+            🌸
+          </div>
+          <div className="text-xl font-semibold text-gray-100 hover:text-pink-600 [font-family:'Satisfy',cursive]">
+            Aarogya Shree
+          </div>
+        </div>
+        <p className="text-sm text-gray-300 leading-relaxed hover:text-pink-600">
+          Your trusted companion for women’s health — providing personalized
+          guidance, local support, and care in your preferred language.
+        </p>
+      </div>
+
+      {/* Quick Links */}
+      <div>
+        <h4 className="text-sm font-semibold text-gray-300 mb-4">
+          Quick Links
+        </h4>
+        <ul className="space-y-2 text-sm text-gray-300">
+          <li className="hover:text-pink-600 cursor-pointer">Health Assessment</li>
+          <li className="hover:text-pink-600 cursor-pointer">Find Clinics</li>
+          <li className="hover:text-pink-600 cursor-pointer">Talk to Sakhi</li>
+          <li className="hover:text-pink-600 cursor-pointer">Resources</li>
+        </ul>
+      </div>
+
+      {/* Support */}
+      <div>
+        <h4 className="text-sm font-semibold text-gray-300 mb-4">
+          Support
+        </h4>
+        <ul className="space-y-2 text-sm text-gray-300">
+          <li className="hover:text-pink-600 cursor-pointer">Privacy Policy</li>
+          <li className="hover:text-pink-600 cursor-pointer">Terms of Service</li>
+          <li className="hover:text-pink-600 cursor-pointer">Contact Us</li>
+          <li className="hover:text-pink-600 cursor-pointer">FAQs</li>
+        </ul>
+      </div>
+    </div>
+
+    {/* Divider */}
+    <div className="mt-10 border-t border-pink-100 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <p className="text-xs text-gray-200 hover:text-pink-600">
+        © {new Date().getFullYear()} Aarogya Shree. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
     </div>
   );
 }

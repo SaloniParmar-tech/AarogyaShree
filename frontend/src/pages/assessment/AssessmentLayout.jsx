@@ -45,6 +45,10 @@ export default function AssessmentLayout({ children, title, subtitle }) {
         <div className="bg-white rounded-2xl p-6 shadow-sm">
           {children}
         </div>
+
+         <div className="help">
+        <h1>How Can We Help You Today?</h1>
+      </div>
       </div>
     </div>
   );
