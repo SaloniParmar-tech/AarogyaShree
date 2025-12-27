@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -12,20 +13,20 @@ export default function Navbar() {
               🌸
             </div> */}
             <div className="text-3xl text-gray-900 font-bold [font-family:'Satisfy',cursive]">
-<img className="w-48" src="https://i.postimg.cc/6pS4cz89/Screenshot-2025-12-27-130800-removebg-preview.png"></img>
+              <Link to="/"><img className="w-52" src="https://i.postimg.cc/6pS4cz89/Screenshot-2025-12-27-130800-removebg-preview.png"></img></Link>
 </div>
           </div>
           {/* Nav Links */}
           <nav className="hidden md:flex gap-8 text-gray-700 text-sm font-medium">
-            <a className="hover:text-pink-600 transition" href="#">
+            <Link to="/assessment"><p className="hover:text-pink-600 transition">
               Assessment
-            </a>
-            <a className="hover:text-pink-600 transition" href="#">
+            </p></Link>
+            <Link to="/dashboard" className="hover:text-pink-600 transition">
               Dashboard
-            </a>
-            <a className="hover:text-pink-600 transition" href="#">
+            </Link>
+            <Link to="/talk-to-sakhi" className="hover:text-pink-600 transition">
               Talk to Sakhi
-            </a>
+            </Link>
             <a className="hover:text-pink-600 transition" href="#">
               Find Clinics
             </a>
