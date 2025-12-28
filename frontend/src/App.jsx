@@ -1,18 +1,17 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AssessmentProvider } from "./context/AssessmentContext";
 
-import LandingPage from "./pages/LandingPage.jsx";
-import AgeStep from "./pages/assessment/AgeStep.jsx";
-import MenstrualStep from "./pages/assessment/MenstrualStep.jsx";
+import LandingPage from "./pages/LandingPage";
 import TalkToSakhi from "./pages/TalkToSakhi";
-import AssessmentLayout from "./pages/assessment/AssessmentLayout.jsx";
 
-/**
- * App.jsx - full route list for assessment flow (start with step1 & step2)
- * You'll add subsequent step components (pain, discharge, urinary, mood, lifestyle, summary)
- * as we proceed.
- */
+import AssessmentLayout from "./pages/assessment/AssessmentLayout";
+import AgeStep from "./pages/assessment/AgeStep";
+import MenstrualStep from "./pages/assessment/MenstrualStep";
+import PainStep from "./pages/assessment/PainStep";
+import MoodStep from "./pages/assessment/MoodStep";
+import LifestyleStep from "./pages/assessment/LifestyleStep";
+import SummaryStep from "./pages/assessment/SummaryStep";
+import ResultStep from "./pages/assessment/ResultStep";
 
 export default function App() {
   return (
@@ -21,18 +20,17 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
-          <Route path="/assessment" element={<AssessmentLayout />} />
-          {/* Assessment flow */}
-          <Route path="/assessment/age" element={<AgeStep />} />
-          <Route path="/assessment/menstrual" element={<MenstrualStep />} />
 
-          {/* Placeholders for remaining steps (add real components later) */}
-          <Route path="/assessment/pain" element={<div className="p-6">Pain step (coming)</div>} />
-          <Route path="/assessment/discharge" element={<div className="p-6">Discharge step (coming)</div>} />
-          <Route path="/assessment/urinary" element={<div className="p-6">Urinary step (coming)</div>} />
-          <Route path="/assessment/mood" element={<div className="p-6">Mood step (coming)</div>} />
-          <Route path="/assessment/lifestyle" element={<div className="p-6">Lifestyle step (coming)</div>} />
-          <Route path="/assessment/summary" element={<div className="p-6">Summary step (coming)</div>} />
+          {/* ✅ NESTED ASSESSMENT FLOW */}
+          <Route path="/assessment" element={<AssessmentLayout />}>
+            <Route path="age" element={<AgeStep />} />
+            <Route path="menstrual" element={<MenstrualStep />} />
+            <Route path="pain" element={<PainStep />} />
+            <Route path="mood" element={<MoodStep />} />
+            <Route path="lifestyle" element={<LifestyleStep />} />
+            <Route path="summary" element={<SummaryStep />} />
+            <Route path="result" element={<ResultStep />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AssessmentProvider>
