@@ -5,6 +5,8 @@ import { AssessmentProvider } from "./context/AssessmentContext";
 import LandingPage from "./pages/LandingPage.jsx";
 import AgeStep from "./pages/assessment/AgeStep.jsx";
 import MenstrualStep from "./pages/assessment/MenstrualStep.jsx";
+import TalkToSakhi from "./pages/TalkToSakhi";
+import AssessmentLayout from "./pages/assessment/AssessmentLayout.jsx";
 
 /**
  * App.jsx - full route list for assessment flow (start with step1 & step2)
@@ -18,7 +20,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-
+          <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
+          <Route path="/assessment" element={<AssessmentLayout />} />
           {/* Assessment flow */}
           <Route path="/assessment/age" element={<AgeStep />} />
           <Route path="/assessment/menstrual" element={<MenstrualStep />} />

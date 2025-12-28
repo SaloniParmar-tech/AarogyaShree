@@ -1,34 +1,32 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-   <header className="sticky bg-pink-100/50 top-0 z-50 w-full backdrop-blur-md backdrop-saturate-90 
+   <header className="sticky bg-pink-100/20 top-0 z-50 w-full backdrop-blur-md backdrop-saturate-90 
   border-b border-white/30">
       <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-pink-600 flex items-center justify-center text-white font-bold shadow">
+          <div className="flex items-center gap-2">
+            {/* <div className="w-8 h-8 rounded-full bg-pink-600 flex items-center justify-center text-white font-bold shadow">
               🌸
-            </div>
+            </div> */}
             <div className="text-3xl text-gray-900 font-bold [font-family:'Satisfy',cursive]">
-  Aarogya Shree
+              <Link to="/"><img className="w-52" src="https://i.postimg.cc/6pS4cz89/Screenshot-2025-12-27-130800-removebg-preview.png"></img></Link>
 </div>
-
-
           </div>
-
           {/* Nav Links */}
           <nav className="hidden md:flex gap-8 text-gray-700 text-sm font-medium">
-            <a className="hover:text-pink-600 transition" href="#">
+            <Link to="/assessment"><p className="hover:text-pink-600 transition">
               Assessment
-            </a>
-            <a className="hover:text-pink-600 transition" href="#">
+            </p></Link>
+            <Link to="/dashboard" className="hover:text-pink-600 transition">
               Dashboard
-            </a>
-            <a className="hover:text-pink-600 transition" href="#">
+            </Link>
+            <Link to="/talk-to-sakhi" className="hover:text-pink-600 transition">
               Talk to Sakhi
-            </a>
+            </Link>
             <a className="hover:text-pink-600 transition" href="#">
               Find Clinics
             </a>
