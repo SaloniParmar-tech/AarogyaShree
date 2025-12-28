@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import AssessmentShell from "../../components/AssessmentShell";
 import SakhiMessage from "../../components/SakhiMessage";
 import ProgessBar from "../../components/ProgessBar";
+import { useAssessment } from "../../context/AssessmentContext";
 
 export default function MenstrualStep() {
   const navigate = useNavigate();
+  const { setAnswer, setStep } = useAssessment();
+
   const options = ["Regular", "Irregular", "Not sure"];
 
   const CURRENT_STEP = 2;
@@ -13,6 +16,12 @@ export default function MenstrualStep() {
 
   const [selected, setSelected] = useState(null);
   const stepToShow = selected ? CURRENT_STEP : CURRENT_STEP - 1;
+
+  const handleSelect = (opt) => {
+    setSelected(opt);
+    setAnswer("menstrual", { type: opt });
+    setStep(CURRENT_STEP);
+  };
 
   return (
     <AssessmentShell>
@@ -25,7 +34,7 @@ export default function MenstrualStep() {
         </h2>
 
         <div className="space-y-3">
-          {options.map(opt => (
+          {options.map((opt) => (
             <label
               key={opt}
               className={`flex gap-3 px-4 py-3 rounded-xl border cursor-pointer
@@ -34,7 +43,7 @@ export default function MenstrualStep() {
               <input
                 type="radio"
                 checked={selected === opt}
-                onChange={() => setSelected(opt)}
+                onChange={() => handleSelect(opt)}
               />
               {opt}
             </label>
@@ -42,18 +51,15 @@ export default function MenstrualStep() {
         </div>
 
         <div className="flex justify-between mt-8">
-          <button
-            onClick={() => navigate(-1)}
-            className="px-6 py-2 rounded-lg border-2 border-pink-500 text-pink-500"
-          >
+          <button onClick={() => navigate(-1)}
+            className="px-6 py-2 rounded-lg border-2 border-pink-500 text-pink-500">
             ← Previous
           </button>
 
           <button
             disabled={!selected}
             onClick={() => navigate("/assessment/pain")}
-            className="px-6 py-2 rounded-lg bg-pink-500 text-white disabled:opacity-40"
-          >
+            className="px-6 py-2 rounded-lg bg-pink-500 text-white disabled:opacity-40">
             Next →
           </button>
         </div>

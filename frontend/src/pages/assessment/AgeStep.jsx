@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import AssessmentShell from "../../components/AssessmentShell";
 import SakhiMessage from "../../components/SakhiMessage";
 import ProgessBar from "../../components/ProgessBar";
+import { useAssessment } from "../../context/AssessmentContext";
 
 export default function AgeStep() {
   const navigate = useNavigate();
+  const { setAnswer, setStep } = useAssessment();
+
   const options = ["18–25", "26–35", "36–45", "46–55", "55+"];
 
   const CURRENT_STEP = 1;
@@ -13,6 +16,12 @@ export default function AgeStep() {
 
   const [selected, setSelected] = useState(null);
   const stepToShow = selected ? CURRENT_STEP : 0;
+
+  const handleSelect = (opt) => {
+    setSelected(opt);
+    setAnswer("ageGroup", opt);
+    setStep(CURRENT_STEP);
+  };
 
   return (
     <AssessmentShell>
@@ -25,7 +34,7 @@ export default function AgeStep() {
         </h2>
 
         <div className="space-y-3">
-          {options.map(opt => (
+          {options.map((opt) => (
             <label
               key={opt}
               className={`flex gap-3 px-4 py-3 rounded-xl border cursor-pointer
@@ -34,7 +43,7 @@ export default function AgeStep() {
               <input
                 type="radio"
                 checked={selected === opt}
-                onChange={() => setSelected(opt)}
+                onChange={() => handleSelect(opt)}
               />
               {opt}
             </label>
@@ -42,10 +51,7 @@ export default function AgeStep() {
         </div>
 
         <div className="flex justify-between mt-8">
-          <button
-            disabled
-            className="px-6 py-2 rounded-lg border-2 border-pink-300 text-pink-300"
-          >
+          <button disabled className="px-6 py-2 rounded-lg border-2 border-pink-300 text-pink-300">
             ← Previous
           </button>
 

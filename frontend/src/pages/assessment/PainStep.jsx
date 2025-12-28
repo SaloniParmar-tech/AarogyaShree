@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import AssessmentShell from "../../components/AssessmentShell";
 import SakhiMessage from "../../components/SakhiMessage";
 import ProgessBar from "../../components/ProgessBar";
+import { useAssessment } from "../../context/AssessmentContext";
 
 export default function PainStep() {
   const navigate = useNavigate();
+  const { setAnswer, setStep } = useAssessment();
+
   const options = ["No Pain", "Mild", "Moderate", "Severe"];
 
   const CURRENT_STEP = 3;
@@ -13,6 +16,12 @@ export default function PainStep() {
 
   const [selected, setSelected] = useState(null);
   const stepToShow = selected ? CURRENT_STEP : CURRENT_STEP - 1;
+
+  const handleSelect = (opt) => {
+    setSelected(opt);
+    setAnswer("pain", { level: opt });   // ✅ stored in context
+    setStep(CURRENT_STEP);               // optional but clean
+  };
 
   return (
     <AssessmentShell>
@@ -25,16 +34,20 @@ export default function PainStep() {
         </h2>
 
         <div className="space-y-3">
-          {options.map(opt => (
+          {options.map((opt) => (
             <label
               key={opt}
               className={`flex gap-3 px-4 py-3 rounded-xl border cursor-pointer
-              ${selected === opt ? "border-pink-500 bg-pink-50" : "border-pink-200"}`}
+              ${
+                selected === opt
+                  ? "border-pink-500 bg-pink-50"
+                  : "border-pink-200"
+              }`}
             >
               <input
                 type="radio"
                 checked={selected === opt}
-                onChange={() => setSelected(opt)}
+                onChange={() => handleSelect(opt)}
               />
               {opt}
             </label>

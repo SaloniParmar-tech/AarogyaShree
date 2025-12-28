@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import AssessmentShell from "../../components/AssessmentShell";
 import SakhiMessage from "../../components/SakhiMessage";
 import ProgessBar from "../../components/ProgessBar";
+import { useAssessment } from "../../context/AssessmentContext";
 
 export default function MoodStep() {
   const navigate = useNavigate();
+  const { setAnswer, setStep } = useAssessment();
+
   const options = ["Happy", "Stressed", "Anxious", "Tired"];
 
   const CURRENT_STEP = 4;
@@ -13,6 +16,12 @@ export default function MoodStep() {
 
   const [selected, setSelected] = useState(null);
   const stepToShow = selected ? CURRENT_STEP : CURRENT_STEP - 1;
+
+  const handleSelect = (opt) => {
+    setSelected(opt);
+    setAnswer("mood", { state: opt });
+    setStep(CURRENT_STEP);
+  };
 
   return (
     <AssessmentShell>
@@ -23,11 +32,17 @@ export default function MoodStep() {
         <h2 className="text-xl font-semibold text-center mb-6">Mood Check</h2>
 
         <div className="space-y-3">
-          {options.map(opt => (
-            <label key={opt}
+          {options.map((opt) => (
+            <label
+              key={opt}
               className={`flex gap-3 px-4 py-3 rounded-xl border
-              ${selected === opt ? "border-pink-500 bg-pink-50" : "border-pink-200"}`}>
-              <input type="radio" checked={selected === opt} onChange={() => setSelected(opt)} />
+              ${selected === opt ? "border-pink-500 bg-pink-50" : "border-pink-200"}`}
+            >
+              <input
+                type="radio"
+                checked={selected === opt}
+                onChange={() => handleSelect(opt)}
+              />
               {opt}
             </label>
           ))}
@@ -39,7 +54,8 @@ export default function MoodStep() {
             ← Previous
           </button>
 
-          <button disabled={!selected}
+          <button
+            disabled={!selected}
             onClick={() => navigate("/assessment/lifestyle")}
             className="px-6 py-2 rounded-lg bg-pink-500 text-white disabled:opacity-40">
             Next →
