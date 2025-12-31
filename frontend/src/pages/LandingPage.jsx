@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 /**
  * LandingPage.jsx
@@ -18,7 +17,6 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* -------- Header -------- */}
-     <Navbar />
 
       {/* -------- Hero (background image) -------- */}
       <main className="relative flex-1 overflow-hidden">
@@ -93,7 +91,7 @@ export default function LandingPage() {
           {/* CTA pill (centered) */}
           <div className="mt-12 flex justify-center">
             <button
-              onClick={() => navigate("/assessment/age")}
+              onClick={() => navigate("/assessment")}
               className="inline-flex items-center gap-3 px-8 md:px-10 py-4 rounded-full bg-gradient-to-r from-pink-500 to-pink-600 text-white font-semibold shadow-2xl hover:scale-[1.01] transition-transform"
             >
               <span className="text-lg">❤</span>
