@@ -29,7 +29,7 @@ export default function AssessmentChoice() {
             hover:shadow-2xl transition border border-pink-200 text-center"
           >
             <img
-              src={imageAnalysisImg}
+              src={questionnaireImg}
               alt="Questionnaire based health assessment"
               className="w-full h-56 object-contain mb-6"
             />
@@ -50,7 +50,7 @@ export default function AssessmentChoice() {
             hover:shadow-2xl transition border border-pink-200 text-center"
           >
             <img
-              src={questionnaireImg}
+              src={imageAnalysisImg}
               alt="AI based image health analysis"
               className="w-full h-56 object-contain mb-6"
             />
