@@ -1,40 +1,67 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AssessmentProvider } from "./context/AssessmentContext";
+import Navbar from "./components/Navbar";
 
+// Main pages
 import LandingPage from "./pages/LandingPage.jsx";
+import TalkToSakhi from "./pages/TalkToSakhi";
+
+// Auth pages
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+
+// Assessment steps
 import AgeStep from "./pages/assessment/AgeStep.jsx";
 import MenstrualStep from "./pages/assessment/MenstrualStep.jsx";
-import TalkToSakhi from "./pages/TalkToSakhi";
-import AssessmentLayout from "./pages/assessment/AssessmentLayout.jsx";
+import PainStep from "./pages/assessment/PainStep.jsx";
+import MoodStep from "./pages/assessment/MoodStep.jsx";
+import LifestyleStep from "./pages/assessment/LifestyleStep.jsx";
+import SummaryStep from "./pages/assessment/SummaryStep.jsx";
+import ResultStep from "./pages/assessment/ResultStep.jsx";
+import AssessmentChoice from "./pages/AssessmentChoice.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
-/**
- * App.jsx - full route list for assessment flow (start with step1 & step2)
- * You'll add subsequent step components (pain, discharge, urinary, mood, lifestyle, summary)
- * as we proceed.
- */
+// Dashboard
+import Dashboard from "./pages/Dashboard.jsx";
 
 export default function App() {
   return (
+    <AuthProvider>
     <AssessmentProvider>
       <BrowserRouter>
+        <Navbar />
+
         <Routes>
+          {/* Landing */}
           <Route path="/" element={<LandingPage />} />
+
+          {/* Auth */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* Talk to Sakhi */}
           <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
-          <Route path="/assessment" element={<AssessmentLayout />} />
+
+          {/* Redirect /assessment to first step */}
+          <Route path="/assessment"element={<AssessmentChoice />}/>
           {/* Assessment flow */}
           <Route path="/assessment/age" element={<AgeStep />} />
           <Route path="/assessment/menstrual" element={<MenstrualStep />} />
+          <Route path="/assessment/pain" element={<PainStep />} />
+          <Route path="/assessment/mood" element={<MoodStep />} />
+          <Route path="/assessment/lifestyle" element={<LifestyleStep />} />
+          <Route path="/assessment/summary" element={<SummaryStep />} />
+          <Route path="/assessment/result" element={<ResultStep />} />
 
-          {/* Placeholders for remaining steps (add real components later) */}
-          <Route path="/assessment/pain" element={<div className="p-6">Pain step (coming)</div>} />
-          <Route path="/assessment/discharge" element={<div className="p-6">Discharge step (coming)</div>} />
-          <Route path="/assessment/urinary" element={<div className="p-6">Urinary step (coming)</div>} />
-          <Route path="/assessment/mood" element={<div className="p-6">Mood step (coming)</div>} />
-          <Route path="/assessment/lifestyle" element={<div className="p-6">Lifestyle step (coming)</div>} />
-          <Route path="/assessment/summary" element={<div className="p-6">Summary step (coming)</div>} />
+          {/* Dashboard */}
+          <Route path="/dashboard" element={<Dashboard />} />
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
     </AssessmentProvider>
+    </AuthProvider>
   );
 }

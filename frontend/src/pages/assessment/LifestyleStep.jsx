@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AssessmentShell from "../../components/AssessmentShell";
 import SakhiMessage from "../../components/SakhiMessage";
-import ProgessBar from "../../components/ProgessBar";
+import ProgressBar from "../../components/ProgressBar";
 import { useAssessment } from "../../context/AssessmentContext";
 
 export default function LifestyleStep() {
@@ -37,7 +37,7 @@ export default function LifestyleStep() {
   return (
     <AssessmentShell>
       <SakhiMessage text="Tell me about your daily lifestyle habits." />
-      <ProgessBar step={stepToShow} total={TOTAL_STEPS} />
+      <ProgressBar step={stepToShow} total={TOTAL_STEPS} />
 
       <div className="bg-white mt-6 rounded-2xl shadow p-6">
         <h2 className="text-xl font-semibold text-center mb-6">
