@@ -1,9 +1,32 @@
 import React, { useState } from "react";
 import { resources } from "../assets/resources_data";
+import AiSummaryModal from "../components/AiSummaryModal";
+import { Link } from "react-router-dom";
 
 export default function Resources() {
   const [selected, setSelected] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All Resources");
+  const [showSummary, setShowSummary] = useState(false);
+
+
+  const filteredResources = resources.filter((item) => {
+  // Filter by type
+  const matchesFilter =
+    activeFilter === "All Resources" ||
+    (activeFilter === "Videos" && item.type === "video") ||
+    (activeFilter === "Articles" && item.type === "article") ||
+    (activeFilter === "Schemes" && item.type === "scheme");
+
+  // Filter by search
+  const query = searchQuery.toLowerCase();
+  const matchesSearch =
+    item.title.toLowerCase().includes(query) ||
+    item.description.toLowerCase().includes(query) ||
+    item.type.toLowerCase().includes(query);
+
+  return matchesFilter && matchesSearch;
+});
 
 
   return (
@@ -16,7 +39,7 @@ export default function Resources() {
             Health Resources
           </h1>
           <p className="text-sm font-semibold text-gray-600 mt-1">
-            Trusted health information, schemes, and support for women
+            Trusted health information, schemes, and support for women with simple summaries.
           </p>
         </div>
         {/* Search Bar */}
@@ -41,20 +64,19 @@ export default function Resources() {
 
         {/* Filters */}
         <div className="flex flex-wrap justify-center gap-2 mb-5">
-          {["All Resources", "Articles", "Videos", "Govt. Schemes", "Helplines" , "FAQs"].map(
-            (tab, i) => (
-              <button
-                key={i}
-                className={`px-4 py-1.5 rounded-full text-sm  ${
-                  i === 0
-                    ? "bg-pink-600/80 text-white font-medium"
-                    : "bg-white border border-pink-200 text-black/75 hover:bg-pink-200 font-medium"
-                }`}
-              >
-                {tab}
-              </button>
-            )
-          )}
+          {["All Resources", "Articles", "Videos", "Schemes"].map((tab, i) => (
+           <button
+    key={i}
+    onClick={() => setActiveFilter(tab)}
+    className={`px-4 py-1.5 rounded-full text-sm font-medium ${
+      activeFilter === tab
+        ? "bg-pink-600/80 text-white"
+        : "bg-white border border-pink-200 text-black/75 hover:bg-pink-200"
+    }`}
+  >
+    {tab}
+  </button>
+))}
         </div>
 
         {/* Two Column Layout */}
@@ -102,8 +124,9 @@ export default function Resources() {
                 Quick Links
                 </h3>
 
-                <div className="space-y-3">
-                <div className="p-3 rounded-xl bg-pink-50 flex items-center gap-3">
+                <div className="space-y-3 flex flex-col">
+                <Link to ="/find-clinics">
+                  <div className="p-3 rounded-xl bg-pink-50 flex items-center gap-3">
                     🏥
                     <div>
                     <p className="text-sm font-medium">Find Hospitals</p>
@@ -112,8 +135,10 @@ export default function Resources() {
                     </p>
                     </div>
                 </div>
+                </Link>
 
-                <div className="p-3 rounded-xl bg-blue-50 flex items-center gap-3">
+                <Link to ="/talk-to-sakhi">
+                    <div className="p-3 rounded-xl bg-blue-50 flex items-center gap-3">
                     💊
                     <div>
                     <p className="text-sm font-medium">Medicine Guide</p>
@@ -122,8 +147,10 @@ export default function Resources() {
                     </p>
                     </div>
                 </div>
+                </Link>
 
-                <div className="p-3 rounded-xl bg-green-50 flex items-center gap-3">
+                <Link to="/find-clinics">
+                    <div className="p-3 rounded-xl bg-green-50 flex items-center gap-3">
                     🩺
                     <div>
                     <p className="text-sm font-medium">Health Checkup</p>
@@ -132,6 +159,7 @@ export default function Resources() {
                     </p>
                     </div>
                 </div>
+                </Link>
                 </div>
             </div>
             </div>
@@ -139,7 +167,7 @@ export default function Resources() {
           {/* ================= RIGHT CONTENT ================= */}
           <div className="lg:col-span-9 grid sm:grid-cols-2 gap-6">
 
-           {resources.map((item) => (
+           {filteredResources.map((item) => (
   <div
     key={item.id}
     onClick={() => setSelected(item)}
@@ -219,8 +247,17 @@ export default function Resources() {
                 title={selected.title}
                 allowFullScreen
               />
+              
             )}
-
+            {selected.type === "video" && (
+              <button
+              onClick={() => setShowSummary(true)}
+              className="mt-3 text-sm font-medium text-pink-600 hover:underline"
+              >
+              🧠 Get simple summary
+            </button>
+            )}
+            
             {/* Article / Scheme */}
             {selected.link && (
               <a
@@ -232,9 +269,18 @@ export default function Resources() {
                 Read full on {selected.source} →
               </a>
             )}
+            
           </div>
         </div>
       )}
+      {showSummary && (
+  <AiSummaryModal
+    title={selected.title}
+    description={selected.description}
+    onClose={() => setShowSummary(false)}
+  />
+)}
+
     </div>
   );
 }
