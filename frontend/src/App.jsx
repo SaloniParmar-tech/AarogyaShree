@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 // Main pages
 import LandingPage from "./pages/LandingPage.jsx";
 import TalkToSakhi from "./pages/TalkToSakhi";
+import Resources from "./pages/Resources.jsx";
 
 // Auth pages
 import Login from "./pages/auth/Login";
@@ -42,6 +43,8 @@ export default function App() {
 
           {/* Talk to Sakhi */}
           <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
+          {/* Resources */}
+          <Route path="/resources" element={<Resources />} />
 
           {/* Redirect /assessment to first step */}
           <Route path="/assessment"element={<AssessmentChoice />}/>

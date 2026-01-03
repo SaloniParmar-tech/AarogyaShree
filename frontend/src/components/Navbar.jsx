@@ -14,23 +14,23 @@ export default function Navbar() {
         className="sticky bg-pink-100/20 top-0 z-50 w-full backdrop-blur-md backdrop-saturate-90 
         border-b border-white/30"
       >
-        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-6">
+        <div className="max-w-[78rem] mx-auto px-6 md:px-8 lg:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center gap-2">
               <div className="text-3xl text-gray-900 font-bold [font-family:'Satisfy',cursive]">
                 <Link to="/">
                   <img
-                    className="w-52"
+                    className="w-44"
                     src="https://i.postimg.cc/6pS4cz89/Screenshot-2025-12-27-130800-removebg-preview.png"
-                    alt="logo"
+                    alt="AarogyaShree Logo"
                   />
                 </Link>
               </div>
             </div>
 
             {/* Nav Links (UNCHANGED) */}
-            <nav className="hidden md:flex gap-8 text-gray-700 text-sm font-medium">
+            <nav className="hidden md:flex gap-9 text-gray-700 text-sm font-medium">
               <Link to="/assessment">
                 <p className="hover:text-pink-600 transition">
                   Assessment
@@ -42,15 +42,15 @@ export default function Navbar() {
               <Link to="/talk-to-sakhi" className="hover:text-pink-600 transition">
                 Talk to Sakhi
               </Link>
-              <a className="hover:text-pink-600 transition" href="#">
+              <Link to='/find-clinics' className="hover:text-pink-600 transition" href="#">
                 Find Clinics
-              </a>
-              <a className="hover:text-pink-600 transition" href="#">
+              </Link>
+              <Link to='/resources' className="hover:text-pink-600 transition" href="#">
                 Resources
-              </a>
-              <a className="hover:text-pink-600 transition" href="#">
+              </Link>
+              <Link to='/community' className="hover:text-pink-600 transition" href="#">
                 Community
-              </a>
+              </Link>
             </nav>
 
             {/* Right Section (ONLY EXTENDED) */}
@@ -65,7 +65,7 @@ export default function Navbar() {
               {!user ? (
                 <button
                   onClick={() => setShowAuth(true)}
-                  className="px-4 py-2 rounded-full bg-pink-600 text-white text-sm font-medium hover:bg-pink-700 transition"
+                  className="px-4 py-2 rounded-full bg-pink-600/80 text-white text-sm font-medium hover:bg-pink-700 transition"
                 >
                   Login / Sign Up
                 </button>
