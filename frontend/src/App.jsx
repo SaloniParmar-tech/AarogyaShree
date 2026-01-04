@@ -22,6 +22,7 @@ import SummaryStep from "./pages/assessment/SummaryStep.jsx";
 import ResultStep from "./pages/assessment/ResultStep.jsx";
 import AssessmentChoice from "./pages/AssessmentChoice.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import FindClinics from "./pages/FindClinics.jsx";
 
 // Dashboard
 import Dashboard from "./pages/Dashboard.jsx";
@@ -45,7 +46,9 @@ export default function App() {
           <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
           {/* Resources */}
           <Route path="/resources" element={<Resources />} />
-
+          {/* Find Clinics */}
+          <Route path="/find-clinics" element={<FindClinics />} />
+          
           {/* Redirect /assessment to first step */}
           <Route path="/assessment"element={<AssessmentChoice />}/>
           {/* Assessment flow */}

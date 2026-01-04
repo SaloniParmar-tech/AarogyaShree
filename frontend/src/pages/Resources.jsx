@@ -1,193 +1,286 @@
-export default function HealthResources() {
-  const resources = [
-    {
-      type: "Article",
-      title: "Understanding Cervical Cancer: A Complete Guide",
-      desc: "Learn about cervical cancer symptoms, prevention, and treatment options in simple language.",
-      time: "5 min",
-      lang: "English",
-    },
-    {
-      type: "Video",
-      title: "Breast Self-Examination Technique",
-      desc: "Step-by-step guide on how to perform monthly breast self-examination.",
-      time: "6 min",
-      lang: "English",
-    },
-    {
-      type: "Government Scheme",
-      title: "Janani Suraksha Yojana – Maternity Benefits",
-      desc: "Government scheme providing financial assistance for safe motherhood.",
-      time: "3 min",
-      lang: "Hindi",
-    },
-    {
-      type: "Helpline",
-      title: "National Women’s Helpline – 181",
-      desc: "24/7 support for women in distress, providing legal and medical guidance.",
-      time: "1 min",
-      lang: "Multiple",
-    },
-    {
-      type: "FAQ",
-      title: "Common Myths About Reproductive Health",
-      desc: "Debunking common misconceptions about women’s reproductive health.",
-      time: "4 min",
-      lang: "Marathi",
-    },
-    {
-      type: "Article",
-      title: "Nutrition During Pregnancy",
-      desc: "Essential nutrition tips for expecting mothers to ensure healthy pregnancy.",
-      time: "6 min",
-      lang: "Tamil",
-    },
-  ];
+import React, { useState } from "react";
+import { resources } from "../assets/resources_data";
+import AiSummaryModal from "../components/AiSummaryModal";
+import { Link } from "react-router-dom";
+
+export default function Resources() {
+  const [selected, setSelected] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All Resources");
+  const [showSummary, setShowSummary] = useState(false);
+
+
+  const filteredResources = resources.filter((item) => {
+  // Filter by type
+  const matchesFilter =
+    activeFilter === "All Resources" ||
+    (activeFilter === "Videos" && item.type === "video") ||
+    (activeFilter === "Articles" && item.type === "article") ||
+    (activeFilter === "Schemes" && item.type === "scheme");
+
+  // Filter by search
+  const query = searchQuery.toLowerCase();
+  const matchesSearch =
+    item.title.toLowerCase().includes(query) ||
+    item.description.toLowerCase().includes(query) ||
+    item.type.toLowerCase().includes(query);
+
+  return matchesFilter && matchesSearch;
+});
+
 
   return (
-  <div className="min-h-screen  bg-gradient-to-br from-pink-50 via-pink-50 to-pink-50 p-6">
-    <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-pink-50">
+      <div className="max-w-[76rem] mx-auto px-6 py-6">
+
         {/* Header */}
-     <div className="bg-white/90 backdrop-blur rounded-2xl p-6 shadow-md border border-pink-100">
-      <h1 className="text-2xl font-bold text-pink-700/90">
-        Health Resources
-      </h1>
-      <p className="text-sm text-gray-700 mt-1 max-w-2xl">
-        Access trusted health information, government schemes, and support
-        services in your preferred language.
+        <div className="text-center mb-5">
+          <h1 className="text-3xl font-semibold text-pink-700">
+            Health Resources
+          </h1>
+          <p className="text-sm font-semibold text-gray-600 mt-1">
+            Trusted health information, schemes, and support for women with simple summaries.
+          </p>
+        </div>
+        {/* Search Bar */}
+        <div className="mb-3 flex justify-center">
+            <div className="relative w-full max-w-xl">
+                <input
+                type="text"
+                placeholder="Search videos, articles, or schemes (e.g. PCOS, cervical, maternity)"
+                className="w-full pl-4 pr-4 py-2.5 rounded-xl border border-pink-200 bg-white
+                 text-sm text-gray-700 placeholder-gray-400
+                 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                />
+
+                {/* 
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    🔍
+                </span> */}
+            </div>
+        </div>
+
+        {/* Filters */}
+        <div className="flex flex-wrap justify-center gap-2 mb-5">
+          {["All Resources", "Articles", "Videos", "Schemes"].map((tab, i) => (
+           <button
+    key={i}
+    onClick={() => setActiveFilter(tab)}
+    className={`px-4 py-1.5 rounded-full text-sm font-medium ${
+      activeFilter === tab
+        ? "bg-pink-600/80 text-white"
+        : "bg-white border border-pink-200 text-black/75 hover:bg-pink-200"
+    }`}
+  >
+    {tab}
+  </button>
+))}
+        </div>
+
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+          {/* ================= LEFT SIDEBAR ================= */}
+            <div className="lg:col-span-3 space-y-6 sticky top-24 h-fit">
+
+            {/* Emergency Contacts */}
+            <div className="bg-white rounded-2xl p-5 shadow-sm border border-pink-200">
+                <h3 className="font-semibold text-gray-800 mb-4">
+                Emergency Contacts
+                </h3>
+
+                <div className="space-y-3">
+                {[
+                    { title: "National Women's Helpline", desc: "24/7 support for women", num: "181" },
+                    { title: "Health Helpline", desc: "Medical emergency assistance", num: "104" },
+                    { title: "Ambulance", desc: "Emergency medical transport", num: "108" },
+                    { title: "Child Helpline", desc: "Child protection services", num: "1098" },
+                ].map((item, i) => (
+                    <div
+                    key={i}
+                    className="flex justify-between items-center p-3 rounded-xl bg-red-50 border border-red-100"
+                    >
+                    <div>
+                        <p className="text-sm font-medium text-gray-800">
+                        {item.title}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                        {item.desc}
+                        </p>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-red-500 text-white text-xs font-semibold">
+                        {item.num}
+                    </span>
+                    </div>
+                ))}
+                </div>
+            </div>
+
+            {/* Quick Links */}
+            <div className="bg-white rounded-2xl p-5 shadow-sm border border-pink-200">
+                <h3 className="font-semibold text-gray-800 mb-4">
+                Quick Links
+                </h3>
+
+                <div className="space-y-3 flex flex-col">
+                <Link to ="/find-clinics">
+                  <div className="p-3 rounded-xl bg-pink-50 flex items-center gap-3">
+                    🏥
+                    <div>
+                    <p className="text-sm font-medium">Find Hospitals</p>
+                    <p className="text-xs text-gray-500">
+                        Locate nearby healthcare facilities
+                    </p>
+                    </div>
+                </div>
+                </Link>
+
+                <Link to ="/talk-to-sakhi">
+                    <div className="p-3 rounded-xl bg-blue-50 flex items-center gap-3">
+                    💊
+                    <div>
+                    <p className="text-sm font-medium">Medicine Guide</p>
+                    <p className="text-xs text-gray-500">
+                        Information about common medicines
+                    </p>
+                    </div>
+                </div>
+                </Link>
+
+                <Link to="/find-clinics">
+                    <div className="p-3 rounded-xl bg-green-50 flex items-center gap-3">
+                    🩺
+                    <div>
+                    <p className="text-sm font-medium">Health Checkup</p>
+                    <p className="text-xs text-gray-500">
+                        Schedule regular health screenings
+                    </p>
+                    </div>
+                </div>
+                </Link>
+                </div>
+            </div>
+            </div>
+
+          {/* ================= RIGHT CONTENT ================= */}
+          <div className="lg:col-span-9 grid sm:grid-cols-2 gap-6">
+
+           {filteredResources.map((item) => (
+  <div
+    key={item.id}
+    onClick={() => setSelected(item)}
+    className="bg-white rounded-2xl p-5 shadow-sm border border-pink-100 cursor-pointer hover:shadow-md transition"
+  >
+    {/* Thumbnail wrapper */}
+    <div className="relative w-full aspect-video bg-gray-200 rounded-lg overflow-hidden">
+      
+      {/* Type badge (overlapping thumbnail) */}
+      <span
+        className={`absolute top-3 left-3 z-10 text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm ${
+          item.type === "video"
+            ? "bg-purple-100/90 text-purple-700"
+            : item.type === "article"
+            ? "bg-blue-100/90 text-blue-700"
+            : "bg-green-100/90 text-green-700"
+        }`}
+      >
+        {item.type.toUpperCase()}
+      </span>
+
+      <img
+        src={item.thumbnail}
+        alt={item.title}
+        onError={(e) => {
+        e.currentTarget.src = "/thumbnails/video-placeholder.png";
+        }}
+        className="w-full h-full object-cover"
+      />
+    </div>
+
+    <h3 className="mt-3 font-semibold text-gray-800">
+      {item.title}
+    </h3>
+
+    <p className="text-sm text-gray-600 mt-1">
+      {item.description}
+    </p>
+
+    {item.duration && (
+      <p className="text-xs text-gray-500 mt-2">
+        ⏱ {item.duration} • 🌐 {item.language}
       </p>
+    )}
+  </div>
+))}
 
-      {/* Search */}
-      <div className="relative mt-5">
-        <input
-          type="text"
-          placeholder="Search health resources..."
-          className="w-full px-4 py-2.5 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-gray-400"
-        />
+          </div>
+        </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2 mt-4">
-        {["All Resources", "Articles", "Videos", "Govt Schemes", "Helplines", "FAQs"].map(
-          (tab, i) => (
+      {/* ================= MODAL ================= */}
+      {selected && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 relative">
+
             <button
-              key={i}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition ${
-                i === 0
-                  ? "bg-pink-500 text-white shadow-sm"
-                  : "bg-pink-100 text-pink-600 hover:bg-pink-200"
-              }`}
+              onClick={() => setSelected(null)}
+              className="absolute top-3 right-4 text-gray-500 text-xl"
             >
-              {tab}
+              ✕
             </button>
-          )
-        )}
-      </div>
-     </div>
 
-     {/* Main Grid */}
-     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
-      {/* Resource Cards */}
-      <div className="lg:col-span-3 grid sm:grid-cols-2 gap-5">
-        {resources.map((item, i) => (
-          <div
-            key={i}
-            className="bg-white rounded-2xl p-5 shadow-sm border border-pink-100 hover:shadow-lg hover:-translate-y-0.5 transition-all"
-          >
-            <span className="inline-block text-xs font-medium bg-pink-100 text-pink-600 px-2.5 py-1 rounded-full">
-              {item.type}
-            </span>
+            <h2 className="text-xl font-semibold mb-3">
+              {selected.title}
+            </h2>
 
-            <h3 className="mt-3 font-semibold text-gray-800 leading-snug">
-              {item.title}
-            </h3>
-
-            <p className="text-sm text-gray-600 mt-1 line-clamp-3">
-              {item.desc}
+            <p className="text-sm text-gray-600 mb-4">
+              {selected.description}
             </p>
 
-            <div className="flex justify-between items-center mt-4 text-xs text-gray-500">
-              <span className="bg-gray-100 px-2 py-1 rounded">
-                {item.lang}
-              </span>
-              <span>{item.time}</span>
-            </div>
-
-            <div className="flex gap-4 mt-4 text-sm font-medium text-pink-600">
-              <button className="hover:underline">Share</button>
-              <button className="hover:underline">Save</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Right Sidebar */}
-      <div className="space-y-5">
-        {/* Emergency Contacts */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-pink-100">
-          <h3 className="font-semibold text-pink-700 mb-4">
-            Emergency Contacts
-          </h3>
-
-          {[
-            { title: "National Women Helpline", number: "181", desc: "24/7 support for women" },
-            { title: "Health Helpline", number: "104", desc: "Medical emergency assistance" },
-            { title: "Ambulance", number: "108", desc: "Emergency medical transport" },
-            { title: "Child Helpline", number: "1098", desc: "Child protection services" },
-          ].map((c, i) => (
-            <div
-              key={i}
-              className="flex justify-between items-start gap-3 mb-3 p-3 rounded-xl hover:bg-pink-50 transition"
-            >
-              <div>
-                <p className="text-sm font-medium text-gray-800">
-                  {c.title}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {c.desc}
-                </p>
-              </div>
-              <span className="bg-pink-100 text-pink-600 text-xs font-semibold px-3 py-1 rounded-full">
-                {c.number}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Quick Links */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-pink-100">
-          <h3 className="font-semibold text-pink-700 mb-3">
-            Quick Links
-          </h3>
-          <ul className="space-y-2 text-sm">
-            {["Find Hospitals", "Medicine Guide", "Health Checkup"].map((link, i) => (
-              <li
-                key={i}
-                className="text-pink-600 hover:underline cursor-pointer"
+            {/* Video */}
+            {selected.type === "video" && (
+              <iframe
+                className="w-full h-72 rounded-xl"
+                src={selected.videoUrl}
+                title={selected.title}
+                allowFullScreen
+              />
+              
+            )}
+            {selected.type === "video" && (
+              <button
+              onClick={() => setShowSummary(true)}
+              className="mt-3 text-sm font-medium text-pink-600 hover:underline"
               >
-                {link}
-              </li>
-            ))}
-          </ul>
+              🧠 Get simple summary
+            </button>
+            )}
+            
+            {/* Article / Scheme */}
+            {selected.link && (
+              <a
+                href={selected.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-4 text-pink-600 font-medium hover:underline"
+              >
+                Read full on {selected.source} →
+              </a>
+            )}
+            
+          </div>
         </div>
+      )}
+      {showSummary && (
+  <AiSummaryModal
+    title={selected.title}
+    description={selected.description}
+    onClose={() => setShowSummary(false)}
+  />
+)}
 
-        {/* Featured Video */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-pink-100">
-          <div className="h-32 bg-gradient-to-br from-pink-200 to-pink-300 rounded-xl mb-4" />
-          <h4 className="font-semibold text-gray-800">
-            Women’s Health Awareness
-          </h4>
-          <p className="text-xs text-gray-600 mt-1">
-            Learn about important health topics every woman should know.
-          </p>
-          <button className="mt-4 w-full bg-pink-500 hover:bg-pink-600 transition text-white py-2.5 rounded-xl font-medium">
-            Watch Now
-          </button>
-        </div>
-      </div>
     </div>
-    </div>
-  </div>
-);
-
+  );
 }

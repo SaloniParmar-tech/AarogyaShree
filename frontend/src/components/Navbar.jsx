@@ -14,7 +14,7 @@ export default function Navbar() {
         className="sticky bg-pink-100/20 top-0 z-50 w-full backdrop-blur-md backdrop-saturate-90 
         border-b border-white/30"
       >
-        <div className="max-w-[78rem] mx-auto px-6 md:px-8 lg:px-6">
+        <div className="max-w-[76rem] mx-auto px-6 md:px-8 lg:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center gap-2">
