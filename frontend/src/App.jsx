@@ -23,6 +23,7 @@ import ResultStep from "./pages/assessment/ResultStep.jsx";
 import AssessmentChoice from "./pages/AssessmentChoice.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import FindClinics from "./pages/FindClinics.jsx";
+import ImageAssessment from "./pages/assessment/ImageAssessment";
 
 // Dashboard
 import Dashboard from "./pages/Dashboard.jsx";
@@ -59,7 +60,8 @@ export default function App() {
           <Route path="/assessment/lifestyle" element={<LifestyleStep />} />
           <Route path="/assessment/summary" element={<SummaryStep />} />
           <Route path="/assessment/result" element={<ResultStep />} />
-
+          <Route path="/assessment/image" element={<ImageAssessment />} />
+          
           {/* Dashboard */}
           <Route path="/dashboard" element={<Dashboard />} />
 
