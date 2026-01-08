@@ -1,9 +1,47 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
+
+  const [assessment, setAssessment] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchAssessment = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setAssessment(null);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/assessment/latest",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+      setAssessment(data);
+    } catch (err) {
+      console.error("Failed to fetch assessment", err);
+      setAssessment(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔑 THIS IS THE REAL FIX
+  useEffect(() => {
+    fetchAssessment();
+  }, [location.pathname]);
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-pink-50 via-white to-purple-50 px-6 py-10">
@@ -66,10 +104,24 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold text-gray-800 mb-3">
             Your Assessment Summary
           </h2>
-          <p className="text-sm text-gray-600">
-            No saved assessments yet. Complete an assessment to see your health
-            history here.
-          </p>
+
+          {!loading && assessment ? (
+            <>
+              <p className="text-sm text-gray-700">
+                Status: {assessment.summary}
+              </p>
+              <p className="text-sm text-gray-500 mt-1">
+                Date: {new Date(assessment.createdAt).toLocaleDateString()}
+              </p>
+            </>
+          ) : (
+            !loading && (
+              <p className="text-sm text-gray-600">
+                No saved assessments yet. Complete an assessment to see your
+                health history here.
+              </p>
+            )
+          )}
         </div>
 
         {/* Health Tips */}
