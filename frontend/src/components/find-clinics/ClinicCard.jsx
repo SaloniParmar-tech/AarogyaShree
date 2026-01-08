@@ -1,22 +1,18 @@
-export default function ClinicCard({
-  clinic,
-  onSelect,
-  onBook,
-  isActive,
-  onHover,
-}) {
+import { MapPin, Phone, Navigation, Clock } from "lucide-react";
+
+export default function ClinicCard({ clinic, onSelect, isActive, onHover }) {
   return (
     <div
       onClick={() => onSelect(clinic)}
       onMouseEnter={() => onHover?.(clinic.id)}
       onMouseLeave={() => onHover?.(null)}
-      className={`bg-white rounded-2xl p-5 shadow-sm border
-    cursor-pointer transition
-    ${
-      isActive
-        ? "border-pink-400 shadow-md ring-2 ring-pink-200"
-        : "border-pink-200 hover:shadow-md"
-    }`}
+      className={`bg-white rounded-2xl p-5 border border-pink-200
+        cursor-pointer transition-all duration-300 ease-out
+        ${
+          isActive
+            ? "shadow-xl scale-[1.015]"
+            : "shadow-sm hover:shadow-lg hover:scale-[1.01]"
+        }`}
     >
       {/* ================= IDENTITY ================= */}
       <div className="flex justify-between items-start">
@@ -28,7 +24,7 @@ export default function ClinicCard({
         {clinic.verified && (
           <span
             className="text-xs px-3 py-1 rounded-full
-          bg-green-100 text-green-700 font-medium"
+            bg-green-100 text-green-700 font-medium"
           >
             ✔ Verified
           </span>
@@ -38,8 +34,9 @@ export default function ClinicCard({
       {/* ================= TRUST & PROXIMITY ================= */}
       <div className="flex items-center gap-4 mt-3 text-sm">
         {clinic.distance !== null && (
-          <span className="text-pink-600 font-medium">
-            📍 {clinic.distance.toFixed(1)} km away
+          <span className="flex items-center gap-1 text-pink-600 font-medium">
+            <MapPin size={14} />
+            {clinic.distance.toFixed(1)} km
           </span>
         )}
         {clinic.rating && (
@@ -53,7 +50,7 @@ export default function ClinicCard({
           <span
             key={service}
             className="px-3 py-1 rounded-full
-            bg-pink-50 text-xs text-pink-700"
+              bg-pink-50 text-xs text-pink-700"
           >
             {service}
           </span>
@@ -64,47 +61,55 @@ export default function ClinicCard({
       </div>
 
       {/* ================= ACCESSIBILITY ================= */}
-      <div className="flex flex-wrap gap-4 mt-4 text-xs text-gray-500">
-        <span>🕒 {clinic.hours}</span>
-        {clinic.languages && <span>🌐 {clinic.languages.join(", ")}</span>}
+      <div className="flex justify-between items-center mt-4 text-xs text-gray-500">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1">
+            <Clock size={14} />
+            {clinic.hours}
+          </span>
+
+          {clinic.languages && <span>🌐 {clinic.languages.join(", ")}</span>}
+        </div>
+
+        {/* Phone number aligned with time */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigator.clipboard.writeText(clinic.phone);
+          }}
+          className="flex items-center gap-1
+            hover:text-pink-600 transition"
+          title="Copy phone number"
+        >
+          <Phone size={14} />
+          {clinic.phone}
+        </button>
       </div>
 
       {/* ================= ACTIONS ================= */}
-      <div className="flex justify-between items-center mt-5">
+      <div className="flex justify-end gap-3 mt-4">
         <a
           href={`https://www.google.com/maps/dir/?api=1&destination=${clinic.lat},${clinic.lng}`}
           target="_blank"
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="py-1.5 text-sm font-semibold
-          text-pink-600/80 hover:text-pink-300 transition"
+          className="px-5 py-2 rounded-full
+            text-sm font-medium border border-pink-200
+            text-pink-600 hover:bg-pink-100 transition
+            flex items-center gap-2"
         >
+          <Navigation size={16} />
           Get Directions
         </a>
-
-        <div className="flex gap-2">
-          <a
-            href={`tel:${clinic.phone}`}
-            onClick={(e) => e.stopPropagation()}
-            className="px-4 py-1.5 rounded-full
-            text-sm text-pink-600/80 border border-pink-200 font-medium
-            hover:bg-pink-300 transition"
-          >
-            Call Now
-          </a>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onBook?.(clinic);
-            }}
-            className="px-4 py-1.5 rounded-full
-  border bg-pink-600/80 text-white text-sm font-medium
-  hover:bg-pink-700 transition"
-          >
-            Book Appointment
-          </button>
-        </div>
+        <a
+          href={`tel:${clinic.phone}`}
+          onClick={(e) => e.stopPropagation()}
+          className="px-5 py-2 rounded-full
+            bg-pink-600/80 text-white text-sm font-medium
+            hover:bg-pink-600 transition"
+        >
+          Call Now
+        </a>
       </div>
     </div>
   );

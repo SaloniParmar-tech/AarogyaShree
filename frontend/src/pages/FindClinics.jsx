@@ -4,14 +4,11 @@ import { calculateDistance } from "../utils/calculateDistance";
 import ClinicCard from "../components/find-clinics/ClinicCard";
 import ClinicSkeleton from "../components/find-clinics/ClinicSkeleton";
 import MapPanel from "../components/find-clinics/MapPanel";
-import AppointmentModal from "../components/find-clinics/AppointmentModal";
 
 export default function FindClinics() {
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeClinicId, setActiveClinicId] = useState(null);
-  const [selectedClinic, setSelectedClinic] = useState(null);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("All");
   const [distanceFilter, setDistanceFilter] = useState("All");
@@ -38,7 +35,6 @@ export default function FindClinics() {
   }));
 
   /* ---------------- FILTER LOGIC ---------------- */
-
   if (typeFilter !== "All") {
     clinics = clinics.filter((c) => c.type === typeFilter);
   }
@@ -63,7 +59,15 @@ export default function FindClinics() {
     );
   }
 
-  clinics.sort((a, b) => (a.distance ?? 999) - (b.distance ?? 999));
+  clinics.sort((a, b) => {
+    // 1️⃣ Higher rating first
+    if (a.rating && b.rating && a.rating !== b.rating) {
+      return b.rating - a.rating;
+    }
+
+    // 2️⃣ If rating missing or equal, sort by distance
+    return (a.distance ?? 999) - (b.distance ?? 999);
+  });
 
   return (
     <div className="min-h-screen bg-pink-50">
@@ -85,8 +89,8 @@ export default function FindClinics() {
               type="text"
               placeholder="Search clinics, services, or area"
               className="w-full pl-4 pr-4 py-2.5 rounded-xl border border-pink-200 bg-white
-              text-sm text-gray-700 placeholder-gray-400
-              focus:outline-none focus:ring-2 focus:ring-pink-400"
+                text-sm text-gray-700 placeholder-gray-400
+                focus:outline-none focus:ring-2 focus:ring-pink-400"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -95,7 +99,6 @@ export default function FindClinics() {
 
         {/* ================= FILTER ROW ================= */}
         <div className="flex flex-wrap justify-center gap-2 mb-6">
-          {/* Type pills */}
           {["All", "Hospital", "Clinic", "ASHA"].map((tab) => (
             <button
               key={tab}
@@ -110,12 +113,11 @@ export default function FindClinics() {
             </button>
           ))}
 
-          {/* Distance dropdown */}
           <select
             value={distanceFilter}
             onChange={(e) => setDistanceFilter(e.target.value)}
             className="px-4 py-1.5 rounded-full text-sm bg-white border border-pink-200
-            text-black/75 hover:bg-pink-200 focus:outline-none"
+                text-black/75 hover:bg-pink-200 focus:outline-none"
           >
             <option value="All">All Distances</option>
             <option value="5">Within 5 km</option>
@@ -123,12 +125,11 @@ export default function FindClinics() {
             <option value="25">Within 25 km</option>
           </select>
 
-          {/* Language dropdown */}
           <select
             value={languageFilter}
             onChange={(e) => setLanguageFilter(e.target.value)}
             className="px-4 py-1.5 rounded-full text-sm bg-white border border-pink-200
-            text-black/75 hover:bg-pink-200 focus:outline-none"
+                text-black/75 hover:bg-pink-200 focus:outline-none"
           >
             <option value="All">All Languages</option>
             <option>Hindi</option>
@@ -152,26 +153,19 @@ export default function FindClinics() {
                   key={c.id}
                   clinic={c}
                   onSelect={() => {}}
-                  onBook={setSelectedClinic}
                   isActive={activeClinicId === c.id}
                   onHover={setActiveClinicId}
                 />
               ))
             ) : (
-              <div
-                className="bg-white rounded-2xl border border-pink-200
-  shadow-sm p-10 text-center"
-              >
+              <div className="bg-white rounded-2xl border border-pink-200 shadow-sm p-10 text-center">
                 <div className="text-4xl mb-3">🔍</div>
-
                 <h3 className="text-lg font-semibold text-gray-800">
                   No clinics found
                 </h3>
-
                 <p className="text-sm text-gray-500 mt-1">
                   Try adjusting filters or expanding distance range.
                 </p>
-
                 <button
                   onClick={() => {
                     setSearchQuery("");
@@ -179,9 +173,7 @@ export default function FindClinics() {
                     setDistanceFilter("All");
                     setLanguageFilter("All");
                   }}
-                  className="mt-4 px-5 py-2 rounded-full
-      bg-pink-600/80 text-white text-sm font-medium
-      hover:bg-pink-600 transition"
+                  className="mt-4 px-5 py-2 rounded-full bg-pink-600/80 text-white text-sm font-medium hover:bg-pink-600 transition"
                 >
                   Reset Filters
                 </button>
@@ -215,8 +207,7 @@ export default function FindClinics() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex justify-between items-center p-3 rounded-xl
-                  bg-red-50 border border-red-100 mb-2"
+                  className="flex justify-between items-center p-3 rounded-xl bg-red-50 border border-red-100 mb-2"
                 >
                   <div>
                     <p className="text-sm font-medium text-gray-800">
@@ -224,10 +215,7 @@ export default function FindClinics() {
                     </p>
                     <p className="text-xs text-gray-500">{item.desc}</p>
                   </div>
-                  <span
-                    className="px-3 py-1 rounded-full bg-red-500
-                  text-white text-xs font-semibold"
-                  >
+                  <span className="px-3 py-1 rounded-full bg-red-500 text-white text-xs font-semibold">
                     {item.num}
                   </span>
                 </div>
@@ -236,10 +224,6 @@ export default function FindClinics() {
           </div>
         </div>
       </div>
-      <AppointmentModal
-        clinic={selectedClinic}
-        onClose={() => setSelectedClinic(null)}
-      />
     </div>
   );
 }
