@@ -15,15 +15,17 @@ import Signup from "./pages/auth/Signup";
 // Assessment steps
 import AgeStep from "./pages/assessment/AgeStep.jsx";
 import MenstrualStep from "./pages/assessment/MenstrualStep.jsx";
-import PainStep from "./pages/assessment/PainStep.jsx";
 import MoodStep from "./pages/assessment/MoodStep.jsx";
-import LifestyleStep from "./pages/assessment/LifestyleStep.jsx";
 import SummaryStep from "./pages/assessment/SummaryStep.jsx";
 import ResultStep from "./pages/assessment/ResultStep.jsx";
 import AssessmentChoice from "./pages/AssessmentChoice.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import FindClinics from "./pages/FindClinics.jsx";
 import ImageAssessment from "./pages/assessment/ImageAssessment";
+import CervicalStep from "./pages/assessment/CervicalStep";
+import BreastStep from "./pages/assessment/BreastStep";
+import GeneralHealthStep from "./pages/assessment/GeneralHealthStep";
+
 
 // Dashboard
 import Dashboard from "./pages/Dashboard.jsx";
@@ -55,12 +57,14 @@ export default function App() {
           {/* Assessment flow */}
           <Route path="/assessment/age" element={<AgeStep />} />
           <Route path="/assessment/menstrual" element={<MenstrualStep />} />
-          <Route path="/assessment/pain" element={<PainStep />} />
           <Route path="/assessment/mood" element={<MoodStep />} />
-          <Route path="/assessment/lifestyle" element={<LifestyleStep />} />
           <Route path="/assessment/summary" element={<SummaryStep />} />
           <Route path="/assessment/result" element={<ResultStep />} />
           <Route path="/assessment/image" element={<ImageAssessment />} />
+          <Route path="/assessment/cervical" element={<CervicalStep />} />
+          <Route path="/assessment/breast" element={<BreastStep />} />
+          <Route path="/assessment/general" element={<GeneralHealthStep />} />
+
           
           {/* Dashboard */}
           <Route path="/dashboard" element={<Dashboard />} />

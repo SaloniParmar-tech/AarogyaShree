@@ -73,7 +73,7 @@ export default function Navbar() {
                 <div className="relative flex items-center gap-3">
                   {/* Welcome text */}
                   <div className="hidden sm:flex flex-col leading-tight text-right">
-                    <span className="text-sm font-semibold text-pink-300">Welcome</span>
+                    <span className="text-sm font-semibold text-pink-600">Welcome</span>
                     <span className="text-sm font-semibold text-pink-600 text-center w-full">
                       Sakhi 
                     </span>

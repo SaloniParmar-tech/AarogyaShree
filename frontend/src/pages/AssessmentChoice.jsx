@@ -10,7 +10,7 @@ export default function AssessmentChoice() {
       className="min-h-[calc(100vh-4rem)] flex items-center justify-center 
       bg-gradient-to-br from-pink-100 via-rose-50 to-purple-100 px-6"
     >
-      <div className="w-full max-w-5xl">
+      <div className="w-full max-w-5xl pt-8 pb-16">
         {/* Heading */}
         <h1 className="text-3xl md:text-4xl font-semibold text-center text-pink-700 mb-3">
           Start Your Assessment 🌸
@@ -29,7 +29,7 @@ export default function AssessmentChoice() {
             hover:shadow-2xl transition border border-pink-200 text-center"
           >
             <img
-              src={questionnaireImg}
+              src="https://i.postimg.cc/1XyyPc2L/questionnaire.png"
               alt="Questionnaire based health assessment"
               className="w-full h-56 object-contain mb-6"
             />
@@ -50,7 +50,7 @@ export default function AssessmentChoice() {
             hover:shadow-2xl transition border border-pink-200 text-center"
           >
             <img
-              src={imageAnalysisImg}
+              src="https://i.postimg.cc/3NZJDb25/Screenshot-2026-01-08-234820.png"
               alt="AI based image health analysis"
               className="w-full h-56 object-contain mb-6"
             />

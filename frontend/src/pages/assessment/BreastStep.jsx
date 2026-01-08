@@ -46,69 +46,50 @@ function QuestionCard({ icon, title, options, value, onChange }) {
   );
 }
 
-
-export default function MoodStep() {
+export default function BreastStep() {
   const navigate = useNavigate();
   const { setMultipleAnswers, setStep, state } = useAssessment();
 
-  const mood = state.answers.mood || {};
-  const lifestyle = state.answers.lifestyle || {};
+  const answers = state.answers.pain || {};
 
-  const updateMood = (k, v) =>
-    setMultipleAnswers({ mood: { ...mood, [k]: v } });
+  const update = (key, val) =>
+    setMultipleAnswers({ pain: { ...answers, [key]: val } });
 
-  const updateLife = (k, v) =>
-    setMultipleAnswers({ lifestyle: { ...lifestyle, [k]: v } });
-
-  const canProceed = mood.feeling && lifestyle.sleep && lifestyle.exercise;
+  const canProceed =
+    answers.lump && answers.skin && answers.discharge && answers.family;
 
   return (
     <AssessmentShell>
-      <SakhiMessage text="Last few questions about your mood and daily habits 🌼" />
-      <ProgressBar step={6} total={7} />
+      <SakhiMessage text="Let’s check for any breast-related symptoms 💗" />
+      <ProgressBar step={4} total={7} />
 
       <div className="mt-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-5 space-y-5">
 
-        <QuestionCard
-          icon="🧠"
-          title="How are you feeling emotionally these days?"
-          options={["Good", "Stressed", "Anxious", "Very low"]}
-          value={mood.feeling}
-          onChange={(v) => updateMood("feeling", v)}
-        />
+        <QuestionCard icon="🔍" title="Have you felt any lump in breast or armpit?"
+          options={["Yes", "No"]} value={answers.lump}
+          onChange={(v) => update("lump", v)} />
 
-        <QuestionCard
-          icon="😴"
-          title="How is your sleep usually?"
-          options={["Good", "Poor"]}
-          value={lifestyle.sleep}
-          onChange={(v) => updateLife("sleep", v)}
-        />
+        <QuestionCard icon="🩺" title="Any change in breast skin or shape?"
+          options={["Yes", "No"]} value={answers.skin}
+          onChange={(v) => update("skin", v)} />
 
-        <QuestionCard
-          icon="🏃‍♀️"
-          title="Do you exercise at least 3 days a week?"
-          options={["Yes", "No"]}
-          value={lifestyle.exercise}
-          onChange={(v) => updateLife("exercise", v)}
-        />
+        <QuestionCard icon="💧" title="Any nipple discharge (not breast milk)?"
+          options={["Yes", "No"]} value={answers.discharge}
+          onChange={(v) => update("discharge", v)} />
+
+        <QuestionCard icon="👪" title="Family history of breast cancer?"
+          options={["Yes", "No", "Not sure"]} value={answers.family}
+          onChange={(v) => update("family", v)} />
 
         <div className="flex justify-between pt-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="px-5 py-2 rounded-xl border border-pink-400 text-pink-500 hover:bg-pink-100 transition"
-          >
+          <button onClick={() => navigate(-1)}
+            className="px-5 py-2 rounded-xl border border-pink-400 text-pink-500 hover:bg-pink-100">
             ← Previous
           </button>
 
-          <button
-            disabled={!canProceed}
-            onClick={() => {
-              setStep(6);
-              navigate("/assessment/summary");
-            }}
-            className="px-6 py-2 rounded-xl bg-pink-500 text-white shadow-lg hover:bg-pink-600 transition disabled:opacity-40"
-          >
+          <button disabled={!canProceed}
+            onClick={() => { setStep(4); navigate("/assessment/general"); }}
+            className="px-6 py-2 rounded-xl bg-pink-500 text-white shadow-lg hover:bg-pink-600 disabled:opacity-40">
             Next →
           </button>
         </div>
