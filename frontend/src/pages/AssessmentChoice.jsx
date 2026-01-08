@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import questionnaireImg from "../assets/assessment/questionnaire.png";
-import imageAnalysisImg from "../assets/assessment/image-analysis.png";
 
 export default function AssessmentChoice() {
   const navigate = useNavigate();
