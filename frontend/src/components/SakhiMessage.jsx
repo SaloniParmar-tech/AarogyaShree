@@ -20,12 +20,7 @@ export default function SakhiMessage({ text }) {
         shadow-sm border border-pink-200
         flex items-start gap-4"
       >
-        {/* Avatar */}
-        <div className="flex-shrink-0">
-          <div className="w-11 h-11 rounded-full bg-pink-500 flex items-center justify-center text-white text-lg shadow">
-            👩‍⚕️
-          </div>
-        </div>
+        
 
         {/* Message */}
         <div>

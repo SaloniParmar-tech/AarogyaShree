@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 dotenv.config();
 
@@ -14,6 +15,11 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB error:", err));
+
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const geminiRoutes = require("./routes/geminiSummary")(genAI);
+app.use("/api", geminiRoutes);
 
 // Routes
 app.use("/api/auth", require("./routes/authRoutes"));

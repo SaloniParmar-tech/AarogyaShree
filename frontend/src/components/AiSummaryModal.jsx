@@ -64,6 +64,11 @@ export default function AiSummaryModal({ title, description, onClose }) {
           onChange={(e) => setLanguageInput(e.target.value)}
           className="w-full px-4 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-pink-400"
         />
+        <p className="mt-2 text-xs text-gray-500">
+  This summary is for educational purposes only and does not provide
+  medical or professional advice.
+</p>
+
 
         <button
           onClick={handleGenerate}

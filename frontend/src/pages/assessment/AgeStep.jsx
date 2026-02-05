@@ -25,7 +25,7 @@ export default function AgeStep() {
 
   return (
     <AssessmentShell>
-      <SakhiMessage text="Let me know your age group so I can guide you better." />
+      <SakhiMessage text="Let me know your age group so I can guide you better🌼 " />
       <ProgressBar step={stepToShow} total={TOTAL_STEPS} />
 
       <div className="bg-white mt-6 rounded-2xl shadow p-6">

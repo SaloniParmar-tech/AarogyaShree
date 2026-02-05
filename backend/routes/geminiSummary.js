@@ -1,8 +1,20 @@
 const express = require("express");
 const router = express.Router();
+const rateLimit = require("express-rate-limit");
+const aiSafety = require("../middleware/aiSafety");
+
+const geminiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 40,
+});
 
 module.exports = (genAI) => {
-  router.post("/gemini-summary", async (req, res) => {
+  router.post(
+  "/gemini-summary",
+  geminiLimiter,
+  aiSafety,
+  async (req, res) => {
+
     const { title, description, language } = req.body;
 
     if (!title || !description || !language) {
@@ -14,22 +26,22 @@ module.exports = (genAI) => {
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
      const prompt = `
-You are a healthcare information assistant.
+You are an educational content summarizer.
 
-Task:
-- Write a simple educational summary of the content below
-- Use ONLY the requested language (strictly)
-- Use bullet points (min 3, max 5)
+Your task:
+- Summarize the given content in simple language.
+- Output only bullet points (minimum 3, maximum 5).
+- Use ONLY the requested language strictly.
 
 Rules:
-- Do NOT explain or mention the language
-- Do NOT add introductions, confirmations, or headings
-- Do NOT give medical advice or diagnosis
-- No emojis
+- Do NOT provide medical, legal, or professional advice.
+- Do NOT mention diagnosis, treatment, or cures.
+- Do NOT add headings, introductions, or explanations.
+- Do NOT mention that you are an AI.
+- No emojis.
 
-Language handling:
-- If the language name is misspelled, infer the closest valid human language (e.g., "mawathi" → Marathi)
-- If no reasonable match exists, respond EXACTLY with:
+Language rules:
+- If the language is unclear or not a real human language, respond EXACTLY with:
   The requested language does not exist.
 
 Requested language:
@@ -42,9 +54,7 @@ Content description:
 "${description}"
 `;
 
-
-
-      const result = await model.generateContent(prompt);
+const result = await model.generateContent(prompt);
       const text = result.response.text();
 
       res.json({ text });

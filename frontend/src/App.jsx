@@ -15,15 +15,17 @@ import Signup from "./pages/auth/Signup";
 // Assessment steps
 import AgeStep from "./pages/assessment/AgeStep.jsx";
 import MenstrualStep from "./pages/assessment/MenstrualStep.jsx";
-import PainStep from "./pages/assessment/PainStep.jsx";
 import MoodStep from "./pages/assessment/MoodStep.jsx";
-import LifestyleStep from "./pages/assessment/LifestyleStep.jsx";
 import SummaryStep from "./pages/assessment/SummaryStep.jsx";
 import ResultStep from "./pages/assessment/ResultStep.jsx";
 import AssessmentChoice from "./pages/AssessmentChoice.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import FindClinics from "./pages/FindClinics.jsx";
 import ImageAssessment from "./pages/assessment/ImageAssessment";
+import CervicalStep from "./pages/assessment/CervicalStep";
+import BreastStep from "./pages/assessment/BreastStep";
+import GeneralHealthStep from "./pages/assessment/GeneralHealthStep";
+
 
 // Dashboard
 import Dashboard from "./pages/Dashboard.jsx";
