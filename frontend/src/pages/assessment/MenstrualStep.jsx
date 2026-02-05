@@ -24,7 +24,7 @@ function QuestionCard({ icon, title, options, value, onChange }) {
   return (
     <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-2xl">{icon}</span>
+        <span className="text-xl text-pink-600">{icon}</span>
         <h3 className="font-semibold text-gray-800">{title}</h3>
       </div>
 
@@ -73,7 +73,7 @@ export default function MenstrualStep() {
       <div className="mt-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-5 space-y-5">
 
         <QuestionCard
-          icon="🩸"
+          icon="1."
           title="Are your periods regular?"
           options={["Yes", "Sometimes", "No"]}
           value={answers.regular}
@@ -81,7 +81,7 @@ export default function MenstrualStep() {
         />
 
         <QuestionCard
-          icon="📅"
+          icon="2."
           title="Your usual cycle length?"
           options={["<21 days", "21–35 days", ">35 days"]}
           value={answers.cycle}
@@ -89,7 +89,7 @@ export default function MenstrualStep() {
         />
 
         <QuestionCard
-          icon="💧"
+          icon="3."
           title="Do you have very heavy bleeding?"
           options={["Yes", "No"]}
           value={answers.heavy}
@@ -97,7 +97,7 @@ export default function MenstrualStep() {
         />
 
         <QuestionCard
-          icon="⚠️"
+          icon="4."
           title="Missed periods for 2+ months (not pregnant)?"
           options={["Yes", "No"]}
           value={answers.missed}

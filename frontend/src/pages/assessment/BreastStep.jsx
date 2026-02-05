@@ -24,7 +24,7 @@ function QuestionCard({ icon, title, options, value, onChange }) {
   return (
     <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-2xl">{icon}</span>
+        <span className="text-xl text-pink-600">{icon}</span>
         <h3 className="font-semibold text-gray-800">{title}</h3>
       </div>
 
@@ -65,19 +65,19 @@ export default function BreastStep() {
 
       <div className="mt-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-5 space-y-5">
 
-        <QuestionCard icon="🔍" title="Have you felt any lump in breast or armpit?"
+        <QuestionCard icon="1." title="Have you felt any lump in breast or armpit?"
           options={["Yes", "No"]} value={answers.lump}
           onChange={(v) => update("lump", v)} />
 
-        <QuestionCard icon="🩺" title="Any change in breast skin or shape?"
+        <QuestionCard icon="2." title="Any change in breast skin or shape?"
           options={["Yes", "No"]} value={answers.skin}
           onChange={(v) => update("skin", v)} />
 
-        <QuestionCard icon="💧" title="Any nipple discharge (not breast milk)?"
+        <QuestionCard icon="3." title="Any nipple discharge (not breast milk)?"
           options={["Yes", "No"]} value={answers.discharge}
           onChange={(v) => update("discharge", v)} />
 
-        <QuestionCard icon="👪" title="Family history of breast cancer?"
+        <QuestionCard icon="4." title="Family history of breast cancer?"
           options={["Yes", "No", "Not sure"]} value={answers.family}
           onChange={(v) => update("family", v)} />
 

@@ -24,7 +24,7 @@ function QuestionCard({ icon, title, options, value, onChange }) {
   return (
     <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-2xl">{icon}</span>
+        <span className="text-xl text-pink-600">{icon}</span>
         <h3 className="font-semibold text-gray-800">{title}</h3>
       </div>
 
@@ -65,19 +65,19 @@ export default function CervicalStep() {
 
       <div className="mt-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-5 space-y-5">
 
-        <QuestionCard icon="🌸" title="Abnormal vaginal discharge?"
+        <QuestionCard icon="1." title="Abnormal vaginal discharge?"
           options={["Yes", "No"]} value={answers.discharge}
           onChange={(v) => update("discharge", v)} />
 
-        <QuestionCard icon="🩸" title="Bleeding after intercourse or between periods?"
+        <QuestionCard icon="2." title="Bleeding after intercourse or between periods?"
           options={["Yes", "No"]} value={answers.bleeding}
           onChange={(v) => update("bleeding", v)} />
 
-        <QuestionCard icon="⚡" title="Pelvic or lower abdominal pain?"
+        <QuestionCard icon="3." title="Pelvic or lower abdominal pain?"
           options={["Yes", "No"]} value={answers.pain}
           onChange={(v) => update("pain", v)} />
 
-        <QuestionCard icon="📋" title="Have you ever had a Pap test?"
+        <QuestionCard icon="4." title="Have you ever had a Pap test?"
           options={["Never", "More than 3 years ago", "Within last 3 years"]}
           value={answers.pap}
           onChange={(v) => update("pap", v)} />

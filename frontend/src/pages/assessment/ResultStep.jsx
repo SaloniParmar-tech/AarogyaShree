@@ -35,10 +35,10 @@ export default function ResultStep() {
       <AssessmentShell>
         <SakhiMessage text="This is only a screening, not a medical diagnosis. Please consult a doctor for any concerns." />
 
-        <div className="mt-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl shadow-xl p-6">
+        <div className="mt-6 bg-gradient-to-br from-pink-50 via-white to-purple-50 rounded-3xl shadow-xl p-6">
 
           <h2 className="text-2xl font-bold text-center mb-2">
-            Your Health Overview 💖
+            Your Health Overview🌼
           </h2>
           <p className="text-center text-gray-600 mb-6 text-sm">
             Based on your answers, here’s what Sakhi noticed
@@ -154,7 +154,7 @@ function ResultCard({ icon, title, status, message }) {
   return (
     <div className={`border rounded-2xl p-4 ${color} shadow-sm`}>
       <div className="flex items-center gap-2 mb-1">
-        <span className="text-xl">{icon}</span>
+        <span className="text-sm">{icon}</span>
         <h3 className="font-semibold text-gray-800">{title}</h3>
       </div>
       <p className="text-sm text-gray-700">{message}</p>

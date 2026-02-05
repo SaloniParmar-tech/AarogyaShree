@@ -24,7 +24,7 @@ function QuestionCard({ icon, title, options, value, onChange }) {
   return (
     <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-2xl">{icon}</span>
+        <span className="text-xl text-pink-600">{icon}</span>
         <h3 className="font-semibold text-gray-800">{title}</h3>
       </div>
 
@@ -70,7 +70,7 @@ export default function MoodStep() {
       <div className="mt-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-5 space-y-5">
 
         <QuestionCard
-          icon="🧠"
+          icon="1."
           title="How are you feeling emotionally these days?"
           options={["Good", "Stressed", "Anxious", "Very low"]}
           value={mood.feeling}
@@ -78,7 +78,7 @@ export default function MoodStep() {
         />
 
         <QuestionCard
-          icon="😴"
+          icon="2."
           title="How is your sleep usually?"
           options={["Good", "Poor"]}
           value={lifestyle.sleep}
@@ -86,7 +86,7 @@ export default function MoodStep() {
         />
 
         <QuestionCard
-          icon="🏃‍♀️"
+          icon="3."
           title="Do you exercise at least 3 days a week?"
           options={["Yes", "No"]}
           value={lifestyle.exercise}

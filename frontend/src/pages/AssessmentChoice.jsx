@@ -6,12 +6,12 @@ export default function AssessmentChoice() {
   return (
     <div
       className="min-h-[calc(100vh-4rem)] flex items-center justify-center 
-      bg-gradient-to-br from-pink-100 via-rose-50 to-purple-100 px-6"
+      bg-gradient-to-br from-pink-50 via-white to-purple-50"
     >
       <div className="w-full max-w-5xl pt-8 pb-16">
         {/* Heading */}
         <h1 className="text-3xl md:text-4xl font-semibold text-center text-pink-700 mb-3">
-          Start Your Assessment 🌸
+          Start Your Assessment
         </h1>
         <p className="text-center text-gray-600 mb-12">
           Choose how you’d like Sakhi to understand your health better

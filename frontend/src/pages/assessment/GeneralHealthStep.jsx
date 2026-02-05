@@ -24,7 +24,7 @@ function QuestionCard({ icon, title, options, value, onChange }) {
   return (
     <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-2xl">{icon}</span>
+        <span className="text-xl text-pink-600">{icon}</span>
         <h3 className="font-semibold text-gray-800">{title}</h3>
       </div>
 
@@ -64,15 +64,15 @@ export default function GeneralHealthStep() {
 
       <div className="mt-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-5 space-y-5">
 
-        <QuestionCard icon="🔥" title="Burning sensation while urinating?"
+        <QuestionCard icon="1." title="Burning sensation while urinating?"
           options={["Yes", "No"]} value={answers.burning}
           onChange={(v) => update("burning", v)} />
 
-        <QuestionCard icon="🚻" title="Frequent urge to urinate?"
+        <QuestionCard icon="2." title="Frequent urge to urinate?"
           options={["Yes", "No"]} value={answers.urgency}
           onChange={(v) => update("urgency", v)} />
 
-        <QuestionCard icon="🌡️" title="Fever or back pain with urinary problems?"
+        <QuestionCard icon="3." title="Fever or back pain with urinary problems?"
           options={["Yes", "No"]} value={answers.fever}
           onChange={(v) => update("fever", v)} />
 
