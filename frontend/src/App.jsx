@@ -27,6 +27,7 @@ import ImageAssessment from "./pages/assessment/ImageAssessment";
 
 // Dashboard
 import Dashboard from "./pages/Dashboard.jsx";
+import Community from "./pages/Community.jsx";
 
 export default function App() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
             {/* Find Clinics */}
             <Route path="/find-clinics" element={<FindClinics />} />
 
+            <Route path="/community" element={<Community />} />
             {/* Redirect /assessment to first step */}
             <Route path="/assessment" element={<AssessmentChoice />} />
             {/* Assessment flow */}
