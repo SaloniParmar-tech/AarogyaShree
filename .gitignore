@@ -19,3 +19,22 @@ build/
 # ===== OS =====
 .DS_Store
 Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Environments
+ml_env/
+venv/
+.env
+
+# Data & models (DO NOT PUSH)
+ml/data/
+ml/models/*.h5
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
