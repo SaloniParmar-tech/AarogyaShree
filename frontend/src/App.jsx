@@ -27,49 +27,51 @@ import ImageAssessment from "./pages/assessment/ImageAssessment";
 
 // Dashboard
 import Dashboard from "./pages/Dashboard.jsx";
+import Community from "./pages/Community.jsx";
 
 export default function App() {
   return (
     <AuthProvider>
-    <AssessmentProvider>
-      <BrowserRouter>
-        <Navbar />
+      <AssessmentProvider>
+        <BrowserRouter>
+          <Navbar />
 
-        <Routes>
-          {/* Landing */}
-          <Route path="/" element={<LandingPage />} />
+          <Routes>
+            {/* Landing */}
+            <Route path="/" element={<LandingPage />} />
 
-          {/* Auth */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+            {/* Auth */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
 
-          {/* Talk to Sakhi */}
-          <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
-          {/* Resources */}
-          <Route path="/resources" element={<Resources />} />
-          {/* Find Clinics */}
-          <Route path="/find-clinics" element={<FindClinics />} />
-          
-          {/* Redirect /assessment to first step */}
-          <Route path="/assessment"element={<AssessmentChoice />}/>
-          {/* Assessment flow */}
-          <Route path="/assessment/age" element={<AgeStep />} />
-          <Route path="/assessment/menstrual" element={<MenstrualStep />} />
-          <Route path="/assessment/pain" element={<PainStep />} />
-          <Route path="/assessment/mood" element={<MoodStep />} />
-          <Route path="/assessment/lifestyle" element={<LifestyleStep />} />
-          <Route path="/assessment/summary" element={<SummaryStep />} />
-          <Route path="/assessment/result" element={<ResultStep />} />
-          <Route path="/assessment/image" element={<ImageAssessment />} />
-          
-          {/* Dashboard */}
-          <Route path="/dashboard" element={<Dashboard />} />
+            {/* Talk to Sakhi */}
+            <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
+            {/* Resources */}
+            <Route path="/resources" element={<Resources />} />
+            {/* Find Clinics */}
+            <Route path="/find-clinics" element={<FindClinics />} />
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
-    </AssessmentProvider>
+            <Route path="/community" element={<Community />} />
+            {/* Redirect /assessment to first step */}
+            <Route path="/assessment" element={<AssessmentChoice />} />
+            {/* Assessment flow */}
+            <Route path="/assessment/age" element={<AgeStep />} />
+            <Route path="/assessment/menstrual" element={<MenstrualStep />} />
+            <Route path="/assessment/pain" element={<PainStep />} />
+            <Route path="/assessment/mood" element={<MoodStep />} />
+            <Route path="/assessment/lifestyle" element={<LifestyleStep />} />
+            <Route path="/assessment/summary" element={<SummaryStep />} />
+            <Route path="/assessment/result" element={<ResultStep />} />
+            <Route path="/assessment/image" element={<ImageAssessment />} />
+
+            {/* Dashboard */}
+            <Route path="/dashboard" element={<Dashboard />} />
+
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </BrowserRouter>
+      </AssessmentProvider>
     </AuthProvider>
   );
 }
