@@ -59,9 +59,9 @@ export default function App() {
             {/* Assessment flow */}
             <Route path="/assessment/age" element={<AgeStep />} />
             <Route path="/assessment/menstrual" element={<MenstrualStep />} />
-            <Route path="/assessment/pain" element={<PainStep />} />
+            {/* <Route path="/assessment/pain" element={<PainStep />} /> */}
             <Route path="/assessment/mood" element={<MoodStep />} />
-            <Route path="/assessment/lifestyle" element={<LifestyleStep />} />
+            {/* <Route path="/assessment/lifestyle" element={<LifestyleStep />} /> */}
             <Route path="/assessment/summary" element={<SummaryStep />} />
             <Route path="/assessment/result" element={<ResultStep />} />
             <Route path="/assessment/image" element={<ImageAssessment />} />
