@@ -9,8 +9,11 @@
 //   );
 // }
 import React from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function SakhiMessage({ text }) {
+  const { t } = useLanguage();
+
   return (
     <div className="w-full flex justify-center mt-5">
       <div
@@ -28,7 +31,7 @@ export default function SakhiMessage({ text }) {
             {text}
           </p>
           <p className="text-xs text-gray-500 mt-1">
-            Your Sakhi
+            {t("yourSakhi")}
           </p>
         </div>
       </div>

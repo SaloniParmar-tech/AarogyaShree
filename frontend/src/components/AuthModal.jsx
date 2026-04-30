@@ -1,94 +1,130 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function AuthModal({ onClose }) {
-  const { login } = useAuth();
+  const { login, register } = useAuth();
+  const { t, language } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    login({
-      name: form.name || "Sakhi",
-      email: form.email
-    });
-    onClose();
+  const handleSubmit = async () => {
+    setMessage("");
+    setIsSubmitting(true);
+
+    try {
+      if (!form.email || !form.password || (!isLogin && !form.name)) {
+        throw new Error("Please fill all required fields");
+      }
+
+      if (!isLogin && form.password !== form.confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+
+      if (isLogin) {
+        await login({
+          email: form.email,
+          password: form.password,
+        });
+      } else {
+        await register({
+          name: form.name || "Sakhi",
+          email: form.email,
+          password: form.password,
+          languagePreference: language,
+        });
+      }
+
+      onClose();
+    } catch (err) {
+      setMessage(err.message || "Authentication failed");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="relative bg-white w-full max-w-md rounded-2xl p-6 shadow-xl">
-        
-        {/* ❌ Close Button */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+      <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
         <button
           onClick={onClose}
-          className="absolute top-3 right-4 text-gray-400 hover:text-red-500 text-xl"
+          className="absolute right-4 top-3 text-xl text-gray-400 hover:text-red-500"
+          aria-label="Close"
         >
-          ✕
+          x
         </button>
 
-        <h2 className="text-2xl font-semibold text-center mb-6 text-pink-600">
-          {isLogin ? "Welcome Back Sakhi 🌸" : "Join AarogyaShree 🌸"}
+        <h2 className="mb-6 text-center text-2xl font-semibold text-pink-600">
+          {isLogin ? t("welcomeBack") : t("joinAarogyaShree")}
         </h2>
 
         {!isLogin && (
           <input
             name="name"
-            placeholder="Full Name"
+            placeholder={t("fullName")}
             onChange={handleChange}
-            className="w-full mb-3 px-4 py-2 border rounded-lg"
+            className="mb-3 w-full rounded-lg border px-4 py-2"
           />
         )}
 
         <input
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder={t("email")}
           onChange={handleChange}
-          className="w-full mb-3 px-4 py-2 border rounded-lg"
+          className="mb-3 w-full rounded-lg border px-4 py-2"
         />
 
         <input
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder={t("password")}
           onChange={handleChange}
-          className="w-full mb-3 px-4 py-2 border rounded-lg"
+          className="mb-3 w-full rounded-lg border px-4 py-2"
         />
 
-        {/* Confirm Password (Sign Up only) */}
         {!isLogin && (
           <input
             name="confirmPassword"
             type="password"
-            placeholder="Confirm Password"
+            placeholder={t("confirmPassword")}
             onChange={handleChange}
-            className="w-full mb-4 px-4 py-2 border rounded-lg"
+            className="mb-4 w-full rounded-lg border px-4 py-2"
           />
         )}
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg font-medium"
+          disabled={isSubmitting}
+          className="w-full rounded-lg bg-pink-600 py-2 font-medium text-white hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isLogin ? "Login" : "Sign Up"}
+          {isSubmitting ? "Please wait..." : isLogin ? t("login") : t("signUp")}
         </button>
 
-        <p className="text-sm text-center mt-4">
-          {isLogin ? "New here?" : "Already registered?"}{" "}
+        {message && (
+          <p className="mt-3 rounded-xl bg-pink-50 px-3 py-2 text-center text-xs font-medium text-pink-700">
+            {message}
+          </p>
+        )}
+
+        <p className="mt-4 text-center text-sm">
+          {isLogin ? t("newHere") : t("alreadyRegistered")}{" "}
           <span
             onClick={() => setIsLogin(!isLogin)}
-            className="text-pink-600 cursor-pointer font-medium"
+            className="cursor-pointer font-medium text-pink-600"
           >
-            {isLogin ? "Create account" : "Login"}
+            {isLogin ? t("createAccount") : t("login")}
           </span>
         </p>
       </div>

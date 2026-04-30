@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AssessmentProvider } from "./context/AssessmentContext";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
 import Navbar from "./components/Navbar";
 
 // Main pages
@@ -33,6 +34,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 export default function App() {
   return (
     <AuthProvider>
+    <LanguageProvider>
     <AssessmentProvider>
       <BrowserRouter>
         <Navbar />
@@ -74,6 +76,7 @@ export default function App() {
         </Routes>
       </BrowserRouter>
     </AssessmentProvider>
+    </LanguageProvider>
     </AuthProvider>
   );
 }
