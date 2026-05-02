@@ -55,19 +55,18 @@ export default function App() {
               {/* Find Clinics */}
               <Route path="/find-clinics" element={<FindClinics />} />
 
-              <Route path="/community" element={<Community />} />
-              {/* Redirect /assessment to first step */}
-              <Route path="/assessment" element={<AssessmentChoice />} />
-              {/* Assessment flow */}
-              <Route path="/assessment/age" element={<AgeStep />} />
-              <Route path="/assessment/menstrual" element={<MenstrualStep />} />
-              <Route path="/assessment/cervical" element={<CervicalStep />} />
-              <Route path="/assessment/breast" element={<BreastStep />} />
-              <Route path="/assessment/general" element={<GeneralHealthStep />} />
-              <Route path="/assessment/mood" element={<MoodStep />} />
-              <Route path="/assessment/summary" element={<SummaryStep />} />
-              <Route path="/assessment/result" element={<ResultStep />} />
-              <Route path="/assessment/image" element={<ImageAssessment />} />
+            <Route path="/community" element={<Community />} />
+            {/* Redirect /assessment to first step */}
+            <Route path="/assessment" element={<AssessmentChoice />} />
+            {/* Assessment flow */}
+            <Route path="/assessment/age" element={<AgeStep />} />
+            <Route path="/assessment/menstrual" element={<MenstrualStep />} />
+            {/* <Route path="/assessment/pain" element={<PainStep />} /> */}
+            <Route path="/assessment/mood" element={<MoodStep />} />
+            {/* <Route path="/assessment/lifestyle" element={<LifestyleStep />} /> */}
+            <Route path="/assessment/summary" element={<SummaryStep />} />
+            <Route path="/assessment/result" element={<ResultStep />} />
+            <Route path="/assessment/image" element={<ImageAssessment />} />
 
               {/* Dashboard */}
               <Route path="/dashboard" element={<Dashboard />} />
