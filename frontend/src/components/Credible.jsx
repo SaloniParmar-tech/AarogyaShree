@@ -1,25 +1,28 @@
 import React from "react";
 import { FlaskConical, Database, Wifi } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const items = [
   {
     icon: FlaskConical,
-    title: "Built on proven AI models",
-    desc: "Our screening uses convolutional neural networks validated in peer-reviewed medical research.",
+    titleKey: "builtOnProvenAI",
+    descKey: "builtOnProvenAIDesc",
   },
   {
     icon: Database,
-    title: "Clinically validated data",
-    desc: "Trained on SIPaKMeD (cervical) and CBIS-DDSM (breast) trusted clinical datasets.",
+    titleKey: "clinicallyValidated",
+    descKey: "clinicallyValidatedDesc",
   },
   {
     icon: Wifi,
-    title: "Works everywhere",
-    desc: "Optimized for low connectivity and basic devices because healthcare shouldn't need fast internet.",
+    titleKey: "worksEverywhere",
+    descKey: "worksEverywhereDesc",
   },
 ];
 
 export default function CredibilitySection() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="credibility"
@@ -29,15 +32,15 @@ export default function CredibilitySection() {
 
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs font-semibold uppercase tracking-widest text-pink-700">
-            Built with care
+            {t("builtWithCare")}
           </span>
 
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-gray-800">
-            Gentle on the outside, rigorous on the inside
+            {t("gentleOutsideRigorousInside")}
           </h2>
 
           <p className="mt-4 text-gray-600">
-            Behind every gentle interaction is clinical accuracy you can trust.
+            {t("behindGentleInteraction")}
           </p>
         </div>
 
@@ -47,7 +50,7 @@ export default function CredibilitySection() {
 
             return (
               <div
-                key={item.title}
+                key={item.titleKey}
                 className="rounded-2xl border border-pink-100 bg-white p-6 shadow-sm hover:shadow-lg transition"
               >
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-pink-100">
@@ -55,11 +58,11 @@ export default function CredibilitySection() {
                 </div>
 
                 <h3 className="text-lg font-semibold text-gray-800">
-                  {item.title}
+                  {t(item.titleKey)}
                 </h3>
 
                 <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                  {item.desc}
+                  {t(item.descKey)}
                 </p>
               </div>
             );

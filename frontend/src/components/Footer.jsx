@@ -1,11 +1,16 @@
+import React from "react";
+import { useLanguage } from "../context/LanguageContext";
+
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-gray-900 border-t border-pink-100">
   <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 py-12">
-    
+
     {/* Top part */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-      
+
       {/* Brand */}
       <div>
         <div className="flex items-center gap-3 mb-4">
@@ -17,43 +22,42 @@ export default function Footer() {
           </div>
         </div>
         <p className="text-sm text-gray-300 leading-relaxed hover:text-pink-600">
-          Your trusted companion for women’s health — providing personalized
-          guidance, local support, and care in your preferred language.
+          {t("footerDescription")}
         </p>
       </div>
 
       {/* Quick Links */}
       <div>
         <h4 className="text-sm font-semibold text-gray-300 mb-4">
-          Quick Links
+          {t("quickLinks")}
         </h4>
         <ul className="space-y-2 text-sm text-gray-300">
-          <li className="hover:text-pink-600 cursor-pointer">Health Assessment</li>
-          <li className="hover:text-pink-600 cursor-pointer">Find Clinics</li>
-          <li className="hover:text-pink-600 cursor-pointer">Talk to Sakhi</li>
-          <li className="hover:text-pink-600 cursor-pointer">Resources</li>
+          <li className="hover:text-pink-600 cursor-pointer">{t("healthAssessment")}</li>
+          <li className="hover:text-pink-600 cursor-pointer">{t("findClinics")}</li>
+          <li className="hover:text-pink-600 cursor-pointer">{t("talkToSakhi")}</li>
+          <li className="hover:text-pink-600 cursor-pointer">{t("resources")}</li>
         </ul>
       </div>
 
       {/* Support */}
       <div>
         <h4 className="text-sm font-semibold text-gray-300 mb-4">
-          Support
+          {t("support")}
         </h4>
         <ul className="space-y-2 text-sm text-gray-300">
-          <li className="hover:text-pink-600 cursor-pointer">Privacy Policy</li>
-          <li className="hover:text-pink-600 cursor-pointer">Terms of Service</li>
-          <li className="hover:text-pink-600 cursor-pointer">Contact Us</li>
-          <li className="hover:text-pink-600 cursor-pointer">FAQs</li>
+          <li className="hover:text-pink-600 cursor-pointer">{t("privacyPolicy")}</li>
+          <li className="hover:text-pink-600 cursor-pointer">{t("termsOfService")}</li>
+          <li className="hover:text-pink-600 cursor-pointer">{t("contactUs")}</li>
+          <li className="hover:text-pink-600 cursor-pointer">{t("faqs")}</li>
         </ul>
       </div>
     </div>
 
     {/* Divider */}
     <div className="mt-10 border-t border-pink-100 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      
+
       <p className="text-xs text-gray-200 hover:text-pink-600">
-        © {new Date().getFullYear()} Aarogya Shree. All rights reserved.
+        {t("copyright")}
       </p>
     </div>
   </div>

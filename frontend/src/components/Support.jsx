@@ -1,46 +1,48 @@
 import React from "react";
 import { Flower2, ShieldCheck, MapPin, BookHeart } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const cards = [
   {
     icon: Flower2,
-    title: "Understand Your Symptoms",
-    desc: "Share how you feel through simple questions, and receive gentle guidance tailored to your health.",
+    titleKey: "understandSymptoms",
+    descKey: "understandSymptomsDesc",
   },
   {
     icon: ShieldCheck,
-    title: "Know Your Health Risks",
-    desc: "AI-powered analysis gives you a clear picture of your risk level with confidence and care.",
+    titleKey: "knowHealthRisks",
+    descKey: "knowHealthRisksDesc",
   },
   {
     icon: MapPin,
-    title: "Find Help Nearby",
-    desc: "Discover government health centres and screening facilities close to you, when you need them.",
+    titleKey: "findHelpNearby",
+    descKey: "findHelpNearbyDesc",
   },
   {
     icon: BookHeart,
-    title: "Learn About Your Body",
-    desc: "Access trusted health education in your language — simple, respectful, and empowering.",
+    titleKey: "learnAboutBody",
+    descKey: "learnAboutBodyDesc",
   },
 ];
 
 export default function SupportSection() {
+  const { t } = useLanguage();
+
   return (
     <section className="py-20 lg:py-28 bg-gradient-to-b from-pink-50 via-white to-pink-50">
       <div className="max-w-[76rem] mx-auto px-7">
 
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs font-semibold uppercase tracking-widest text-pink-600">
-            How AarogyaShree helps you
+            {t("howAarogyaHelps")}
           </span>
 
           <h2 className="mt-3 text-3xl font-bold text-gray-800 sm:text-4xl">
-            A caring space for your well-being
+            {t("caringSpace")}
           </h2>
 
           <p className="mt-4 text-gray-600">
-            Every feature is designed with warmth and empathy to support you like
-            a trusted sakhi.
+            {t("sakhiDescription")}
           </p>
         </div>
 
@@ -50,7 +52,7 @@ export default function SupportSection() {
 
             return (
               <div
-                key={item.title}
+                key={item.titleKey}
                 className="rounded-2xl border border-pink-100 bg-white/90 p-6 transition hover:shadow-lg hover:-translate-y-1"
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-pink-100 mb-4">
@@ -58,11 +60,11 @@ export default function SupportSection() {
                 </div>
 
                 <h3 className="text-base font-semibold text-gray-800">
-                  {item.title}
+                  {t(item.titleKey)}
                 </h3>
 
                 <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                  {item.desc}
+                  {t(item.descKey)}
                 </p>
               </div>
             );

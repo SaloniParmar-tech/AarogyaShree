@@ -1,21 +1,24 @@
 import React from "react";
 import { Sparkles } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const qualities = [
-  "Listens patiently",
-  "Guides gently",
-  "Understands your concerns",
-  "Speaks your language",
+  "listensPatiently",
+  "guidesGently",
+  "understandsConcerns",
+  "speaksYourLanguage",
 ];
 
 const suggestedQuestions = [
-  "What are early signs I should notice?",
-  "How often should I get screened?",
-  "I'm feeling worried about a symptom…",
-  "Help me find a clinic nearby",
+  "earlySigns",
+  "howOftenScreened",
+  "feelingWorried",
+  "helpFindClinic",
 ];
 
 export default function AIAssistants() {
+  const { t } = useLanguage();
+
   return (
     <section id="ai-assistant" className="py-20 lg:py-28 bg-gradient-to-b from-pink-50 via-white to-pink-50">
       <div className="max-w-[76rem] mx-auto px-7">
@@ -24,17 +27,15 @@ export default function AIAssistants() {
           {/* Left */}
           <div>
             <span className="text-xs font-semibold uppercase tracking-widest text-pink-700">
-              Your Digital Sakhi
+              {t("yourDigitalSakhi")}
             </span>
 
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-gray-800">
-              A companion who truly cares
+              {t("companionWhoCares")}
             </h2>
 
             <p className="mt-4 text-gray-600 leading-relaxed max-w-md">
-              Sakhi is not just a chatbot — she's a presence that listens,
-              understands, and supports you through your health journey.
-              Always calm. Always kind.
+              {t("sakhiDescription")}
             </p>
 
             <div className="mt-8 grid grid-cols-2 gap-3">
@@ -46,7 +47,7 @@ export default function AIAssistants() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pink-100">
                     <Sparkles size={12} className="text-pink-700" />
                   </div>
-                  {item}
+                  {t(item)}
                 </div>
               ))}
             </div>
@@ -64,21 +65,19 @@ export default function AIAssistants() {
                 <div>
                   <p className="text-sm font-semibold text-gray-800">Sakhi</p>
                   <p className="text-[11px] text-gray-500">
-                    Your health companion
+                    {t("yourSakhi")}
                   </p>
                 </div>
               </div>
 
               <div className="rounded-xl bg-pink-50 p-4 mb-4">
                 <p className="text-sm text-gray-700 leading-relaxed">
-                  "Hello! I'm here whenever you need me. You can ask me anything
-                  about your health — I'll do my best to help, gently and
-                  honestly. 🌸"
+                  {t("sakhiGreeting")}
                 </p>
               </div>
 
               <p className="text-xs font-medium text-gray-500 mb-3">
-                You might want to ask:
+                {t("youMightWantToAsk")}
               </p>
 
               <div className="flex flex-wrap gap-2">
@@ -87,7 +86,7 @@ export default function AIAssistants() {
                     key={item}
                     className="rounded-full border border-pink-200 bg-white px-3.5 py-2 text-xs text-gray-600 hover:bg-pink-50 transition"
                   >
-                    {item}
+                    {t(item)}
                   </button>
                 ))}
               </div>

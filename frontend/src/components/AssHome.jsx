@@ -5,51 +5,53 @@ import {
   ImageUp,
   HeartHandshake,
 } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const steps = [
   {
     icon: MessageCircle,
     step: "01",
-    title: "Share how you feel",
-    desc: "Answer simple questions about your symptoms in your own language.",
+    titleKey: "shareHowYouFeel",
+    descKey: "shareHowYouFeelDesc",
   },
   {
     icon: ClipboardList,
     step: "02",
-    title: "Add simple details",
-    desc: "Share relevant health history so we can understand you better.",
+    titleKey: "addSimpleDetails",
+    descKey: "addSimpleDetailsDesc",
   },
   {
     icon: ImageUp,
     step: "03",
-    title: "Upload image (optional)",
-    desc: "If available, share a clinical image for deeper AI analysis.",
+    titleKey: "uploadImageOptional",
+    descKey: "uploadImageOptionalDesc",
   },
   {
     icon: HeartHandshake,
     step: "04",
-    title: "Get gentle guidance",
-    desc: "Receive clear insights with next steps — monitor, consult, or visit a clinic.",
+    titleKey: "getGentleGuidance",
+    descKey: "getGentleGuidanceDesc",
   },
 ];
 
 export default function AssessmentFlow() {
+  const { t } = useLanguage();
+
   return (
     <section id="how-it-works" className="py-20 lg:py-28 bg-white">
       <div className="max-w-[76rem] mx-auto px-7">
 
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-xs font-semibold uppercase tracking-widest text-pink-700">
-            How it supports you
+            {t("howItSupports")}
           </span>
 
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-gray-800">
-            A gentle, guided health check
+            {t("gentleGuidedCheck")}
           </h2>
 
           <p className="mt-4 text-gray-600">
-            Four simple steps designed to feel easy, safe, and respectful of
-            your time and comfort.
+            {t("takesFewMinutes")}
           </p>
         </div>
 
@@ -70,15 +72,15 @@ export default function AssessmentFlow() {
                 </div>
 
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
-                  Step {item.step}
+                  {t("step")} {item.step}
                 </span>
 
                 <h3 className="mt-2 text-base font-semibold text-gray-800">
-                  {item.title}
+                  {t(item.titleKey)}
                 </h3>
 
                 <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                  {item.desc}
+                  {t(item.descKey)}
                 </p>
               </div>
             );
