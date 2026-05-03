@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AssessmentProvider } from "./context/AssessmentContext";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
 import Navbar from "./components/Navbar";
 
 // Main pages
@@ -34,24 +35,25 @@ import Community from "./pages/Community.jsx";
 export default function App() {
   return (
     <AuthProvider>
-      <AssessmentProvider>
-        <BrowserRouter>
-          <Navbar />
+      <LanguageProvider>
+        <AssessmentProvider>
+          <BrowserRouter>
+            <Navbar />
 
-          <Routes>
-            {/* Landing */}
-            <Route path="/" element={<LandingPage />} />
+            <Routes>
+              {/* Landing */}
+              <Route path="/" element={<LandingPage />} />
 
-            {/* Auth */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+              {/* Auth */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
 
-            {/* Talk to Sakhi */}
-            <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
-            {/* Resources */}
-            <Route path="/resources" element={<Resources />} />
-            {/* Find Clinics */}
-            <Route path="/find-clinics" element={<FindClinics />} />
+              {/* Talk to Sakhi */}
+              <Route path="/talk-to-sakhi" element={<TalkToSakhi />} />
+              {/* Resources */}
+              <Route path="/resources" element={<Resources />} />
+              {/* Find Clinics */}
+              <Route path="/find-clinics" element={<FindClinics />} />
 
             <Route path="/community" element={<Community />} />
             {/* Redirect /assessment to first step */}
@@ -66,14 +68,15 @@ export default function App() {
             <Route path="/assessment/result" element={<ResultStep />} />
             <Route path="/assessment/image" element={<ImageAssessment />} />
 
-            {/* Dashboard */}
-            <Route path="/dashboard" element={<Dashboard />} />
+              {/* Dashboard */}
+              <Route path="/dashboard" element={<Dashboard />} />
 
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </BrowserRouter>
-      </AssessmentProvider>
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </BrowserRouter>
+        </AssessmentProvider>
+      </LanguageProvider>
     </AuthProvider>
   );
 }

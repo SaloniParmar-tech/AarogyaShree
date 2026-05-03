@@ -4,13 +4,14 @@ import AssessmentShell from "../../components/AssessmentShell";
 import SakhiMessage from "../../components/SakhiMessage";
 import ProgressBar from "../../components/ProgressBar";
 import { useAssessment } from "../../context/AssessmentContext";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function AgeStep() {
   const navigate = useNavigate();
   const { setAnswer, setStep } = useAssessment();
+  const { t } = useLanguage();
 
-  const options = ["18–25", "26–35", "36–45", "46–55", "55+"];
-
+  const options = ["18-25", "26-35", "36-45", "46-55", "55+"];
   const CURRENT_STEP = 1;
   const TOTAL_STEPS = 6;
 
@@ -25,20 +26,21 @@ export default function AgeStep() {
 
   return (
     <AssessmentShell>
-      <SakhiMessage text="Let me know your age group so I can guide you better🌼 " />
+      <SakhiMessage text={t("ageSakhi")} />
       <ProgressBar step={stepToShow} total={TOTAL_STEPS} />
 
-      <div className="bg-white mt-6 rounded-2xl shadow p-6">
-        <h2 className="text-xl font-semibold text-center mb-6">
-          What is your age group?
+      <div className="mt-6 rounded-2xl bg-white p-6 shadow">
+        <h2 className="mb-6 text-center text-xl font-semibold">
+          {t("ageQuestion")}
         </h2>
 
         <div className="space-y-3">
           {options.map((opt) => (
             <label
               key={opt}
-              className={`flex gap-3 px-4 py-3 rounded-xl border cursor-pointer
-              ${selected === opt ? "border-pink-500 bg-pink-50" : "border-pink-200"}`}
+              className={`flex cursor-pointer gap-3 rounded-xl border px-4 py-3 ${
+                selected === opt ? "border-pink-500 bg-pink-50" : "border-pink-200"
+              }`}
             >
               <input
                 type="radio"
@@ -50,17 +52,20 @@ export default function AgeStep() {
           ))}
         </div>
 
-        <div className="flex justify-between mt-8">
-          <button disabled className="px-6 py-2 rounded-lg border-2 border-pink-300 text-pink-300">
-            ← Previous
+        <div className="mt-8 flex justify-between">
+          <button
+            disabled
+            className="rounded-lg border-2 border-pink-300 px-6 py-2 text-pink-300"
+          >
+            ← {t("previous")}
           </button>
 
           <button
             disabled={!selected}
             onClick={() => navigate("/assessment/menstrual")}
-            className="px-6 py-2 rounded-lg bg-pink-500 text-white disabled:opacity-40"
+            className="rounded-lg bg-pink-500 px-6 py-2 text-white disabled:opacity-40"
           >
-            Next →
+            {t("next")} →
           </button>
         </div>
       </div>
