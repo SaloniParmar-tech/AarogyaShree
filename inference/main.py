@@ -1,4 +1,5 @@
 from io import BytesIO
+import json
 from pathlib import Path
 from typing import Any
 
@@ -20,7 +21,11 @@ APP_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = APP_DIR.parent
 MODEL_DIR = PROJECT_ROOT / "ml" / "models"
 IMAGE_SIZE = (128, 128)
-THRESHOLD = 0.5
+DEFAULT_THRESHOLDS = {
+    "breast": 0.5,
+    "cervical": 0.5,
+    "pcos": 0.5,
+}
 
 
 app = FastAPI(
@@ -138,6 +143,32 @@ def load_models() -> dict[str, Any]:
 models = load_models()
 
 
+def load_inference_config() -> dict[str, Any]:
+    config_path = MODEL_DIR / "inference_config.json"
+    if not config_path.exists():
+        return {"score_transforms": {}, "thresholds": DEFAULT_THRESHOLDS}
+
+    with config_path.open("r", encoding="utf-8") as config_file:
+        config = json.load(config_file)
+
+    thresholds = DEFAULT_THRESHOLDS | config.get("thresholds", {})
+    return {**config, "score_transforms": config.get("score_transforms", {}), "thresholds": thresholds}
+
+
+inference_config = load_inference_config()
+
+
+def threshold_for(model_name: str) -> float:
+    return float(inference_config["thresholds"].get(model_name, DEFAULT_THRESHOLDS[model_name]))
+
+
+def calibrated_score(model_name: str, score: float) -> float:
+    transform = inference_config.get("score_transforms", {}).get(model_name, "identity")
+    if transform == "inverse":
+        return 1.0 - score
+    return score
+
+
 def model_score(predictions: np.ndarray) -> float:
     values = np.asarray(predictions)
     if values.ndim > 1 and values.shape[-1] > 1:
@@ -176,13 +207,13 @@ async def read_image(file: UploadFile) -> np.ndarray:
     return resized.astype(np.float32) / 255.0
 
 
-def image_response(score: float, positive_label: str, negative_label: str) -> ImagePrediction:
-    prediction = int(score > THRESHOLD)
+def image_response(score: float, threshold: float, positive_label: str, negative_label: str) -> ImagePrediction:
+    prediction = int(score > threshold)
     return ImagePrediction(
         probability=round(score, 6),
         prediction=prediction,
         result=positive_label if prediction else negative_label,
-        note="Evaluated with test-time augmentation.",
+        note=f"Evaluated with test-time augmentation at threshold {threshold:.3f}.",
     )
 
 
@@ -200,6 +231,7 @@ def health() -> dict[str, Any]:
             "cervical": models["cervical"] is not None,
             "pcos": models["pcos"] is not None and models["pcos_scaler"] is not None,
         },
+        "thresholds": inference_config["thresholds"],
     }
 
 
@@ -209,7 +241,11 @@ def predict_pcos(data: PCOSInput) -> PCOSPrediction:
 
     try:
         scaled_features = models["pcos_scaler"].transform(features)
-        prediction = int(models["pcos"].predict(scaled_features)[0])
+        if hasattr(models["pcos"], "predict_proba"):
+            score = calibrated_score("pcos", float(models["pcos"].predict_proba(scaled_features)[0][1]))
+            prediction = int(score > threshold_for("pcos"))
+        else:
+            prediction = int(models["pcos"].predict(scaled_features)[0])
     except ValueError as exc:
         expected = getattr(models["pcos_scaler"], "n_features_in_", "the trained feature count")
         raise HTTPException(
@@ -226,12 +262,22 @@ def predict_pcos(data: PCOSInput) -> PCOSPrediction:
 @app.post("/predict/breast", response_model=ImagePrediction, tags=["Breast Cancer Screening"])
 async def predict_breast(file: UploadFile = File(...)) -> ImagePrediction:
     image = await read_image(file)
-    score = apply_tta(image, models["breast"])
-    return image_response(score, positive_label="Malignant", negative_label="Benign")
+    score = calibrated_score("breast", apply_tta(image, models["breast"]))
+    return image_response(
+        score,
+        threshold=threshold_for("breast"),
+        positive_label="Malignant",
+        negative_label="Benign",
+    )
 
 
 @app.post("/predict/cervical", response_model=ImagePrediction, tags=["Cervical Cancer Screening"])
 async def predict_cervical(file: UploadFile = File(...)) -> ImagePrediction:
     image = await read_image(file)
-    score = apply_tta(image, models["cervical"])
-    return image_response(score, positive_label="Abnormal", negative_label="Normal")
+    score = calibrated_score("cervical", apply_tta(image, models["cervical"]))
+    return image_response(
+        score,
+        threshold=threshold_for("cervical"),
+        positive_label="Abnormal",
+        negative_label="Normal",
+    )
