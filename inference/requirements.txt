@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+Pillow
+tensorflow
+numpy
+opencv-python
+joblib
+scikit-learn==1.7.2
+h5py
