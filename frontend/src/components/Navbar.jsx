@@ -25,7 +25,7 @@ const navLinks = [
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, languageOptions, setLanguage, t } = useLanguage();
   const [showAuth, setShowAuth] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
@@ -74,16 +74,13 @@ export default function Navbar() {
                   className="flex items-center gap-2 rounded-full border border-pink-100 bg-white/80 px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-pink-200 hover:bg-pink-50"
                 >
                   <Languages size={16} className="text-pink-700" />
-                  {language === "hi" ? t("hindi") : t("english")}
+                  {t(languageOptions.find((item) => item.code === language)?.labelKey || "english")}
                   <ChevronDown size={14} className="text-gray-400" />
                 </button>
 
                 {showLanguageMenu && (
                   <div className="absolute right-0 mt-3 w-36 overflow-hidden rounded-2xl border border-pink-100 bg-white/95 p-1 shadow-[0_18px_45px_rgba(190,24,93,0.18)] ring-1 ring-white/80 backdrop-blur-xl">
-                    {[
-                      { code: "en", label: t("english") },
-                      { code: "hi", label: t("hindi") },
-                    ].map((item) => (
+                    {languageOptions.map((item) => (
                       <button
                         key={item.code}
                         onClick={() => selectLanguage(item.code)}
@@ -93,7 +90,7 @@ export default function Navbar() {
                             : "text-gray-700 hover:bg-pink-50"
                         }`}
                       >
-                        {item.label}
+                        {t(item.labelKey)}
                       </button>
                     ))}
                   </div>
@@ -190,26 +187,19 @@ export default function Navbar() {
 
                 <div className="mt-3 grid gap-2 border-t border-pink-100 pt-3">
                   <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => selectLanguage("en")}
-                      className={`rounded-2xl border px-4 py-3 text-sm font-semibold ${
-                        language === "en"
-                          ? "border-pink-200 bg-pink-50 text-pink-700"
-                          : "border-pink-100 bg-white text-gray-700"
-                      }`}
-                    >
-                      {t("english")}
-                    </button>
-                    <button
-                      onClick={() => selectLanguage("hi")}
-                      className={`rounded-2xl border px-4 py-3 text-sm font-semibold ${
-                        language === "hi"
-                          ? "border-pink-200 bg-pink-50 text-pink-700"
-                          : "border-pink-100 bg-white text-gray-700"
-                      }`}
-                    >
-                      {t("hindi")}
-                    </button>
+                    {languageOptions.map((item) => (
+                      <button
+                        key={item.code}
+                        onClick={() => selectLanguage(item.code)}
+                        className={`rounded-2xl border px-4 py-3 text-sm font-semibold ${
+                          language === item.code
+                            ? "border-pink-200 bg-pink-50 text-pink-700"
+                            : "border-pink-100 bg-white text-gray-700"
+                        }`}
+                      >
+                        {t(item.labelKey)}
+                      </button>
+                    ))}
                   </div>
                   {/* <button className="flex items-center justify-between rounded-2xl border border-pink-100 bg-white px-4 py-3 text-sm font-semibold text-gray-700">
                     <span className="flex items-center gap-2">
@@ -230,15 +220,31 @@ export default function Navbar() {
                       {t("loginSignup")}
                     </button>
                   ) : (
-                    <button
-                      onClick={() => {
-                        logout();
-                        closeMenus();
-                      }}
-                      className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600"
-                    >
-                      {t("logout")}
-                    </button>
+                    <>
+                      <Link
+                        to="/profile"
+                        onClick={closeMenus}
+                        className="rounded-2xl border border-pink-100 bg-white px-4 py-3 text-sm font-semibold text-gray-700"
+                      >
+                        {t("profile")}
+                      </Link>
+                      <Link
+                        to="/settings"
+                        onClick={closeMenus}
+                        className="rounded-2xl border border-pink-100 bg-white px-4 py-3 text-sm font-semibold text-gray-700"
+                      >
+                        {t("settings")}
+                      </Link>
+                      <button
+                        onClick={() => {
+                          logout();
+                          closeMenus();
+                        }}
+                        className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600"
+                      >
+                        {t("logout")}
+                      </button>
+                    </>
                   )}
                 </div>
               </div>

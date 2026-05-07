@@ -31,6 +31,8 @@ import GeneralHealthStep from "./pages/assessment/GeneralHealthStep";
 // Dashboard
 import Dashboard from "./pages/Dashboard.jsx";
 import Community from "./pages/Community.jsx";
+import Profile from "./pages/Profile.jsx";
+import SettingsPage from "./pages/Settings.jsx";
 
 export default function App() {
   return (
@@ -70,6 +72,8 @@ export default function App() {
 
               {/* Dashboard */}
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings" element={<SettingsPage />} />
 
               {/* Fallback */}
               <Route path="*" element={<Navigate to="/" />} />

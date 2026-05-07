@@ -56,6 +56,22 @@ export default function SummaryStep() {
     mentalRisk,
   };
 
+  const riskScore =
+    (pcosRisk === "high" ? 30 : pcosRisk === "medium" ? 15 : 0) +
+    (cervicalRisk ? 25 : 0) +
+    (breastRisk ? 25 : 0) +
+    (utiRisk ? 10 : 0) +
+    (mentalRisk ? 10 : 0);
+
+  const recommendations = [
+    breastRisk && "Book a clinical breast examination.",
+    cervicalRisk && "Consider Pap screening or gynecology consultation.",
+    pcosRisk !== "low" && "Track periods and consult a gynecologist if irregularity continues.",
+    utiRisk && "Increase water intake and consult a doctor for urinary symptoms.",
+    mentalRisk && "Talk to someone trusted or a counselor for emotional support.",
+    "Maintain a balanced diet, regular sleep, and routine screening.",
+  ].filter(Boolean);
+
   const saveIfNeeded = async () => {
     const token = localStorage.getItem("token");
 
@@ -70,7 +86,16 @@ export default function SummaryStep() {
           },
           body: JSON.stringify({
             summary: "Assessment Completed",
+            type: "questionnaire",
+            score: Math.min(riskScore, 100),
             risks: resultPayload,
+            answers: state.answers,
+            modelInput: {
+              source: "questionnaire",
+              answers: state.answers,
+            },
+            modelResult: resultPayload,
+            recommendations,
           }),
         });
       } catch (err) {

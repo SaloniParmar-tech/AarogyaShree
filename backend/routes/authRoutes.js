@@ -18,6 +18,13 @@ const toSafeUser = (user) => ({
   name: user.name,
   email: user.email,
   languagePreference: user.languagePreference || "en",
+  phone: user.phone || "",
+  ageGroup: user.ageGroup || "",
+  location: user.location || "",
+  emergencyContact: user.emergencyContact || "",
+  notificationPreferences: user.notificationPreferences,
+  privacySettings: user.privacySettings,
+  createdAt: user.createdAt,
 });
 
 // Register
@@ -33,7 +40,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "Password must be at least 6 characters" });
     }
 
-    if (!["en", "hi"].includes(languagePreference)) {
+    if (!["en", "hi", "mr", "te", "bn"].includes(languagePreference)) {
       return res.status(400).json({ message: "Invalid language preference" });
     }
 
@@ -90,7 +97,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/me", authMiddleware, async (req, res) => {
-  const user = await User.findById(req.user.id).select("name email languagePreference");
+  const user = await User.findById(req.user.id).select("-password");
 
   if (!user) {
     return res.status(404).json({ message: "User not found" });
@@ -102,7 +109,7 @@ router.get("/me", authMiddleware, async (req, res) => {
 router.put("/preference", authMiddleware, async (req, res) => {
   const { languagePreference } = req.body;
 
-  if (!["en", "hi"].includes(languagePreference)) {
+  if (!["en", "hi", "mr", "te", "bn"].includes(languagePreference)) {
     return res.status(400).json({ message: "Invalid language preference" });
   }
 
@@ -113,6 +120,88 @@ router.put("/preference", authMiddleware, async (req, res) => {
   ).select("name email languagePreference");
 
   res.json({ user: toSafeUser(user) });
+});
+
+router.put("/profile", authMiddleware, async (req, res) => {
+  try {
+    const { name, phone, ageGroup, location, emergencyContact } = req.body;
+
+    if (!name?.trim()) {
+      return res.status(400).json({ message: "Name is required" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        name: name.trim(),
+        phone: phone?.trim() || "",
+        ageGroup: ageGroup || "",
+        location: location?.trim() || "",
+        emergencyContact: emergencyContact?.trim() || "",
+      },
+      { new: true }
+    ).select("-password");
+
+    res.json({ user: toSafeUser(user) });
+  } catch (err) {
+    res.status(500).json({ message: "Profile update failed" });
+  }
+});
+
+router.put("/settings", authMiddleware, async (req, res) => {
+  try {
+    const {
+      languagePreference,
+      notificationPreferences = {},
+      privacySettings = {},
+    } = req.body;
+
+    if (languagePreference && !["en", "hi", "mr", "te", "bn"].includes(languagePreference)) {
+      return res.status(400).json({ message: "Invalid language preference" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        ...(languagePreference ? { languagePreference } : {}),
+        notificationPreferences,
+        privacySettings,
+      },
+      { new: true }
+    ).select("-password");
+
+    res.json({ user: toSafeUser(user) });
+  } catch (err) {
+    res.status(500).json({ message: "Settings update failed" });
+  }
+});
+
+router.put("/password", authMiddleware, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Both passwords are required" });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters" });
+    }
+
+    const user = await User.findById(req.user.id);
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Current password is incorrect" });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Password update failed" });
+  }
 });
 
 module.exports = router;

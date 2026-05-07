@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../../utils/fixLeafletIcon";
@@ -11,17 +12,38 @@ const activeIcon = new L.DivIcon({
   className: "clinic-marker active",
 });
 
-export default function MapPanel({ clinics, activeClinicId, onMarkerSelect }) {
+const userIcon = new L.DivIcon({
+  className: "user-location-marker",
+});
+
+export default function MapPanel({
+  clinics,
+  activeClinicId,
+  onMarkerSelect,
+  userLocation,
+}) {
+  const center = userLocation
+    ? [userLocation.lat, userLocation.lng]
+    : clinics[0]
+    ? [clinics[0].lat, clinics[0].lng]
+    : [22.9734, 78.6569];
+
   return (
     <MapContainer
-      center={[19.076, 72.8777]}
-      zoom={12}
+      center={center}
+      zoom={userLocation ? 13 : 5}
       className="h-full w-full rounded-2xl"
     >
+      <MapUpdater clinics={clinics} center={center} userLocation={userLocation} />
+
       <TileLayer
         attribution="&copy; OpenStreetMap"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+
+      {userLocation && (
+        <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon} />
+      )}
 
       {clinics.map((c) => (
         <Marker
@@ -37,4 +59,25 @@ export default function MapPanel({ clinics, activeClinicId, onMarkerSelect }) {
       ))}
     </MapContainer>
   );
+}
+
+function MapUpdater({ clinics, center, userLocation }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const points = clinics
+      .slice(0, 12)
+      .map((clinic) => [clinic.lat, clinic.lng]);
+
+    if (userLocation) points.push([userLocation.lat, userLocation.lng]);
+
+    if (points.length >= 2) {
+      map.fitBounds(points, { padding: [28, 28], maxZoom: 14 });
+      return;
+    }
+
+    map.setView(center, userLocation ? 13 : 5);
+  }, [clinics, center, map, userLocation]);
+
+  return null;
 }

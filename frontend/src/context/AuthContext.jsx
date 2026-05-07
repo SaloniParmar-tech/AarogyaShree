@@ -93,6 +93,77 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
   };
 
+  const updateProfile = async (profile) => {
+    if (!token) throw new Error("Please login again");
+
+    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(profile),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Profile update failed");
+    }
+
+    setUser(data.user);
+    localStorage.setItem("sakhi_user", JSON.stringify(data.user));
+    return data.user;
+  };
+
+  const updateSettings = async (settings) => {
+    if (!token) throw new Error("Please login again");
+
+    const response = await fetch(`${API_BASE_URL}/auth/settings`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(settings),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Settings update failed");
+    }
+
+    setUser(data.user);
+    localStorage.setItem("sakhi_user", JSON.stringify(data.user));
+    if (data.user?.languagePreference) {
+      localStorage.setItem("sakhi_language", data.user.languagePreference);
+      localStorage.setItem(
+        `sakhi_language_${data.user.email}`,
+        data.user.languagePreference
+      );
+    }
+    return data.user;
+  };
+
+  const updatePassword = async ({ currentPassword, newPassword }) => {
+    if (!token) throw new Error("Please login again");
+
+    const response = await fetch(`${API_BASE_URL}/auth/password`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Password update failed");
+    }
+
+    return data.message;
+  };
+
   const updateUserLanguage = async (languagePreference) => {
     if (!user) return;
 
@@ -128,6 +199,9 @@ export function AuthProvider({ children }) {
         register,
         login,
         logout,
+        updateProfile,
+        updateSettings,
+        updatePassword,
         updateUserLanguage,
       }}
     >
