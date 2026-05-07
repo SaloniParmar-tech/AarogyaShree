@@ -130,6 +130,13 @@ export default function ResultStep() {
             </button>
 
             <button
+              onClick={() => navigate("/dashboard")}
+              className="px-6 py-2 rounded-xl border border-pink-400 text-pink-500 hover:bg-pink-100 transition"
+            >
+              View Dashboard
+            </button>
+
+            <button
               onClick={() => navigate("/assessment/age")}
               className="px-6 py-2 rounded-xl bg-pink-500 text-white shadow-lg hover:bg-pink-600 transition"
             >

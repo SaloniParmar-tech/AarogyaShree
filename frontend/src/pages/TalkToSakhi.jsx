@@ -1,26 +1,30 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { RotateCcw, Send, Sparkles } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
+
+const API_BASE_URL = "http://localhost:5000/api";
 
 export default function TalkToSakhi() {
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
+  const { languageName, t } = useLanguage();
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
   const [messages, setMessages] = useState([
     {
       sender: "sakhi",
-      text:
-        "Hello, I’m Sakhi. You can ask me about symptoms, reports, or when to see a doctor.",
+      text: t("sakhiWelcome"),
       time: getTime(),
     },
   ]);
 
   const quickPrompts = [
-    { text: "Periods & PCOS", color: "bg-purple-100 text-purple-700 border-purple-200" },
-    { text: "Breast health", color: "bg-pink-100 text-pink-700 border-pink-200" },
-    { text: "Cervical screening", color: "bg-blue-100 text-blue-700 border-blue-200" },
-    { text: "Urinary problems", color: "bg-green-100 text-green-700 border-green-200" },
-    { text: "Explain my report", color: "bg-orange-100 text-orange-700 border-orange-200" },
+    { key: "periodsAndPcos", color: "bg-purple-100 text-purple-700 border-purple-200" },
+    { key: "breastHealth", color: "bg-pink-100 text-pink-700 border-pink-200" },
+    { key: "cervicalScreening", color: "bg-blue-100 text-blue-700 border-blue-200" },
+    { key: "urinaryProblems", color: "bg-green-100 text-green-700 border-green-200" },
+    { key: "explainMyReport", color: "bg-orange-100 text-orange-700 border-orange-200" },
   ];
 
   useEffect(() => {
@@ -31,52 +35,54 @@ export default function TalkToSakhi() {
     inputRef.current?.focus();
   }, [typing]);
 
-  function getTime() {
-    return new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
+  async function sendMessage(text) {
+    if (!text.trim() || typing) return;
 
-  const sendMessage = async (text) => {
-    if (!text.trim()) return;
+    const userMessage = { sender: "user", text: text.trim(), time: getTime() };
+    const nextMessages = [...messages, userMessage];
 
-    const time = getTime();
-
-    setMessages((prev) => [...prev, { sender: "user", text, time }]);
+    setMessages(nextMessages);
     setInput("");
     setTyping(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/sakhi", {
+      const res = await fetch(`${API_BASE_URL}/sakhi`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({
+          message: text.trim(),
+          history: messages.slice(-8),
+          language: languageName,
+        }),
       });
 
       const data = await res.json();
 
       setMessages((prev) => [
         ...prev,
-        { sender: "sakhi", text: data.reply, time: getTime() },
+        {
+          sender: "sakhi",
+          text: data.reply || "I could not prepare a response right now. Please try again.",
+          time: getTime(),
+        },
       ]);
-    } catch (err) {
+    } catch {
       setMessages((prev) => [
         ...prev,
         {
           sender: "sakhi",
-          text: "I’m having trouble responding right now. Please try again shortly.",
+          text: "I am having trouble responding right now. Please try again shortly.",
           time: getTime(),
         },
       ]);
     } finally {
       setTyping(false);
     }
-  };
+  }
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
       sendMessage(input);
     }
   };
@@ -85,140 +91,118 @@ export default function TalkToSakhi() {
     setMessages([
       {
         sender: "sakhi",
-        text: "Hi again 🌸 What would you like to talk about now?",
+        text: t("sakhiRestart"),
         time: getTime(),
       },
     ]);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
-      <div className="max-w-4xl mx-auto px-6 py-10">
-
-        {/* Header */}
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-semibold text-pink-700">Ask Sakhi</h1>
-          <p className="text-sm text-gray-600 mt-1">
-            Gentle guidance for your health questions
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50">
+      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+        <div className="mb-6 text-center">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-pink-100 bg-white px-4 py-2 text-xs font-bold uppercase text-pink-700 shadow-sm">
+            <Sparkles size={14} />
+            {t("aiHealthCompanion")}
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900">Ask Sakhi</h1>
+          <p className="mt-2 text-sm text-gray-600">
+            {t("askSakhiSubtitle")}
           </p>
         </div>
 
-        {/* Intro Card */}
-        <div className="mb-5 bg-white/70 backdrop-blur-md rounded-2xl border border-pink-200 shadow-sm p-4 text-center text-sm text-gray-700">
-          🌸 You can ask about symptoms, reports, or when to consult a doctor.
-          Sakhi will guide you step by step.
+        <div className="mb-5 rounded-2xl border border-pink-100 bg-white/80 p-4 text-center text-sm leading-6 text-gray-700 shadow-sm backdrop-blur">
+          {t("askSakhiDisclaimer")}
         </div>
 
-        {/* Chat Container */}
-        <div
-          className="
-            bg-white/70 backdrop-blur-xl
-            rounded-3xl border border-pink-200
-            shadow-xl flex flex-col h-[580px] overflow-hidden
-          "
-        >
-
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4
-                          bg-gradient-to-b from-pink-50/60 via-white to-white">
-
-            {messages.map((msg, idx) => (
+        <div className="flex h-[580px] flex-col overflow-hidden rounded-3xl border border-pink-100 bg-white/80 shadow-xl backdrop-blur-xl">
+          <div className="flex-1 space-y-4 overflow-y-auto bg-gradient-to-b from-pink-50/70 via-white to-white px-4 py-5 sm:px-6">
+            {messages.map((msg, index) => (
               <div
-                key={idx}
-                className={`flex animate-[fadeIn_0.2s_ease-out]
-                  ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+                key={`${msg.time}-${index}`}
+                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed
-                    ${
-                      msg.sender === "user"
-                        ? "bg-pink-500 text-white rounded-br-sm shadow-md"
-                        : "bg-white text-gray-800 border border-pink-100 rounded-bl-sm shadow-sm"
-                    }`}
+                  className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm sm:max-w-[75%] ${
+                    msg.sender === "user"
+                      ? "rounded-br-sm bg-pink-600 text-white"
+                      : "rounded-bl-sm border border-pink-100 bg-white text-gray-800"
+                  }`}
                 >
-                  {msg.text}
-                  <div className="text-[11px] opacity-60 mt-1 text-right">
-                    {msg.time}
-                  </div>
+                  <span className="whitespace-pre-line">{msg.text}</span>
+                  <div className="mt-1 text-right text-[11px] opacity-60">{msg.time}</div>
                 </div>
               </div>
             ))}
 
             {typing && (
               <div className="flex items-center gap-2 text-sm text-gray-500">
-                <span className="w-2 h-2 bg-pink-300 rounded-full animate-bounce" />
-                <span className="w-2 h-2 bg-pink-300 rounded-full animate-bounce delay-150" />
-                <span className="w-2 h-2 bg-pink-300 rounded-full animate-bounce delay-300" />
-                <span className="ml-2 italic">Sakhi is typing</span>
+                <span className="h-2 w-2 animate-bounce rounded-full bg-pink-300" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-pink-300 delay-150" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-pink-300 delay-300" />
+                <span className="ml-2 italic">{t("sakhiTyping")}</span>
               </div>
             )}
 
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Prompt Cards (NOW ABOVE INPUT) */}
-          <div className="px-4 py-3 border-t border-pink-200 bg-white/80 backdrop-blur-md">
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-              {quickPrompts.map((p) => (
+          <div className="border-t border-pink-100 bg-white/90 px-4 py-3">
+            <div className="flex gap-2 overflow-x-auto">
+              {quickPrompts.map((prompt) => (
                 <button
-                  key={p.text}
-                  onClick={() => sendMessage(p.text)}
-                  className={`whitespace-nowrap px-4 py-1.5 rounded-full text-sm border transition
-                    hover:-translate-y-0.5 hover:shadow-sm ${p.color}`}
+                  key={prompt.key}
+                  onClick={() => sendMessage(t(prompt.key))}
+                  className={`whitespace-nowrap rounded-full border px-4 py-1.5 text-sm transition hover:-translate-y-0.5 hover:shadow-sm ${prompt.color}`}
                 >
-                  {p.text}
+                  {t(prompt.key)}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Input Area */}
-          <div className="border-t border-pink-200 px-4 py-3 bg-white">
-
+          <div className="border-t border-pink-100 bg-white px-4 py-3">
             <div className="flex items-center gap-3">
               <textarea
                 ref={inputRef}
                 rows={1}
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(event) => setInput(event.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type your health question..."
-                className="
-                  flex-1 resize-none rounded-2xl px-4 py-2.5 border border-gray-300 text-sm
-                  focus:outline-none focus:ring-2 focus:ring-pink-300
-                "
+                placeholder={t("typeHealthQuestion")}
+                className="flex-1 resize-none rounded-2xl border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300"
               />
 
               <button
-                disabled={!input.trim()}
+                disabled={!input.trim() || typing}
                 onClick={() => sendMessage(input)}
-                className="
-                  w-11 h-11 rounded-full
-                  bg-gradient-to-br from-pink-500 to-pink-600
-                  hover:from-pink-600 hover:to-pink-700
-                  transition text-white flex items-center justify-center
-                  shadow-lg hover:scale-105
-                  disabled:opacity-40 disabled:hover:scale-100
-                "
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-pink-700 text-white shadow-lg transition hover:scale-105 hover:bg-pink-800 disabled:opacity-40 disabled:hover:scale-100"
+                aria-label="Send message"
               >
-                ➤
+                <Send size={18} />
               </button>
             </div>
 
-            {/* Bottom Actions */}
-            <div className="flex justify-between mt-2 text-xs text-gray-500">
-              <span>Press Enter to send • Shift+Enter for new line</span>
+            <div className="mt-2 flex justify-between gap-3 text-xs text-gray-500">
+              <span>{t("sendHint")}</span>
               <button
                 onClick={clearChat}
-                className="hover:text-pink-600 transition"
+                className="inline-flex items-center gap-1 whitespace-nowrap transition hover:text-pink-600"
               >
-                Clear chat
+                <RotateCcw size={12} />
+                {t("clearChat")}
               </button>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   );
+}
+
+function getTime() {
+  return new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
